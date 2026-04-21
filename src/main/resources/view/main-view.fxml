@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.listacompra.interfaces.listacompra.controller.MainController">
+
+    <TextField fx:id="txtProducto" promptText="Introduce un producto"/>
+
+    <Button text="Añadir"/>
+
+    <ListView fx:id="listaProductos"/>
+
+</VBox>
