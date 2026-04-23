@@ -7,6 +7,45 @@ import com.listacompra.interfaces.listacompra.model.Usuario;
 // Se encarga de validar los datos introducidos y delegar las operaciones al DAO.
 public class UsuarioService {
 
+    // Mé_todo encargado de autenticar a un usuario en el sistema.
+    // Recibe el DNI y la contraseña introducidos en el login.
+    // Devuelve un objeto Usuario si la autenticación es correcta o null si falla.
+    public Usuario autenticarUsuario(String dni, String password) {
+
+        // Validamos que el DNI no sea nulo ni esté vacío.
+        // Si no hay DNI, no se puede realizar la autenticación.
+        if (dni == null || dni.isEmpty()) {
+            return null;
+        }
+
+        // Validamos que la contraseña no sea nula ni esté vacía.
+        // Sin contraseña no es posible verificar la identidad del usuario.
+        if (password == null || password.isEmpty()) {
+            return null;
+        }
+
+        // Normalizamos el DNI eliminando espacios en blanco y convirtiéndolo a mayúsculas.
+        // Esto evita errores si el usuario introduce el DNI con espacios o en minúsculas.
+        dni = dni.trim().toUpperCase();
+
+        // Buscamos el usuario en la base de datos a través del DAO usando el DNI.
+        Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
+
+        // Si no existe ningún usuario con ese DNI, la autenticación falla.
+        if (usuario == null) {
+            return null;
+        }
+
+        // Comprobamos si la contraseña introducida coincide con la almacenada.
+        // Si no coincide, se considera un intento de login inválido.
+        if (!usuario.getPassword().equals(password)) {
+            return null;
+        }
+
+        // Si todas las comprobaciones son correctas, devolvemos el usuario autenticado.
+        return usuario;
+    }
+
     // Mé_todo que crea un nuevo usuario en la base de datos
     // Incluye validaciones de formato y duplicidad
     public void crearUsuario(String dni, String nombre, String apellido, String email, String password) {

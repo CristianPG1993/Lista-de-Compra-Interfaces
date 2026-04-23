@@ -1,0 +1,45 @@
+/* Contenedor principal del login.
+   Define el fondo general de la pantalla y el espacio interno (padding)
+   para que los elementos no estén pegados a los bordes. */
+.container-login {
+    -fx-background-color: #f5f7fa; /* Color de fondo suave (gris claro) */
+    -fx-padding: 20;               /* Espaciado interno uniforme */
+}
+
+/* Estilo para los campos de texto (DNI y contraseña).
+   Se utiliza para mejorar la apariencia visual de los inputs. */
+.input-texto {
+    -fx-background-radius: 6; /* Bordes redondeados del fondo */
+    -fx-border-radius: 6;     /* Bordes redondeados del borde */
+    -fx-padding: 8;           /* Espacio interno del texto dentro del campo */
+}
+
+/* Botón principal de la pantalla (Iniciar sesión).
+   Se utiliza para destacar la acción principal del usuario. */
+.btn-inicio-sesion {
+    -fx-background-color: #3b82f6; /* Azul principal */
+    -fx-text-fill: white;          /* Texto en blanco para contraste */
+    -fx-background-radius: 8;      /* Bordes redondeados */
+    -fx-transition: pantalla 0.2s; /* Transición para el cambio del hover */
+}
+
+/* Hover botón iniciar sesión */
+.btn-inicio-sesion:hover {
+    -fx-background-color: #2563eb; /* Azul más oscuro */
+    -fx-cursor: hand;              /* Cambia el cursor */
+}
+
+/* Botón secundario (Crear usuario).
+   Menos destacado visualmente que el principal. */
+.btn-crear-usuario {
+    -fx-background-color: #e5e7eb; /* Gris claro */
+    -fx-background-radius: 8;      /* Bordes redondeados */
+}
+
+
+
+/* Hover botón crear usuario */
+.btn-crear-usuario:hover {
+    -fx-background-color: #d1d5db; /* Gris un poco más oscuro */
+    -fx-cursor: hand;
+}
