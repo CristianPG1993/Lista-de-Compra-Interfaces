@@ -1,20 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.listacompra.interfaces.listacompra.controller.MainController">
-
-    <TextField fx:id="txtProducto" alignment="CENTER" prefHeight="25.0" prefWidth="177.0" promptText="Introduce un producto">
-      <font>
-         <Font size="13.0" />
-      </font></TextField>
-
-    <Button text="Añadir" />
-
-    <ListView fx:id="listaProductos" />
-
-</VBox>
+<BorderPane maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="400.0"
+            prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.listacompra.interfaces.listacompra.controller.MainController">
+   <top>
+      <HBox prefHeight="50.0" prefWidth="200.0" styleClass="header-principal" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblTitulo" text="Lista de la Compra" />
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-lateral" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#onMostrarUsuarios" text="Usuarios" />
+            <Button fx:id="btnListasCompra" mnemonicParsing="false" text="Listas Compra" />
+            <Button fx:id="btnProductos" mnemonicParsing="false" text="Productos" />
+            <Button fx:id="btnAnadirProducto" mnemonicParsing="false" text="Añadir producto a lista" />
+            <Button fx:id="btnMostrarLista" mnemonicParsing="false" text="Mostrar lista" />
+            <Button fx:id="btnSalir" mnemonicParsing="false" text="Salir" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <StackPane fx:id="contenidoCentral" prefHeight="400.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <opaqueInsets>
+            <Insets left="20.0" />
+         </opaqueInsets></StackPane>
+   </center>
+   <bottom>
+      <HBox prefHeight="40.0" prefWidth="200.0" styleClass="barra-estado" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblEstado" text="Estado: listo" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

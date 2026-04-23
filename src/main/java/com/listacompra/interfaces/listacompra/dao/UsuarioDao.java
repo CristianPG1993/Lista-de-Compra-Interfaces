@@ -31,9 +31,6 @@ public class UsuarioDao {
             // Se ejecuta la inserción en la base de datos
             ps.executeUpdate();
 
-            // Mensaje de confirmación
-            System.out.println("Usuario insertado correctamente");
-
             // Se cierran los recursos para evitar fugas de memoria
             ps.close();
             connection.close();

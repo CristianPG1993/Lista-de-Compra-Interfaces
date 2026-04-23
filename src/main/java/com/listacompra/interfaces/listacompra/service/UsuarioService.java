@@ -48,48 +48,41 @@ public class UsuarioService {
 
     // Mé_todo que crea un nuevo usuario en la base de datos
     // Incluye validaciones de formato y duplicidad
-    public void crearUsuario(String dni, String nombre, String apellido, String email, String password) {
+    public String crearUsuario(String dni, String nombre, String apellido, String email, String password) {
 
         // Validar que el DNI no esté vacío
         if (dni.isEmpty()) {
-            System.out.println("El DNI no puede estar vacío.");
-            return;
+            return "El DNI no puede estar vacío.";
         }
 
         // Validar formato del DNI (8 números + letra)
         if (!dni.matches("^[0-9]{8}[a-zA-Z]$")) {
-            System.out.println("Formato de DNI no válido.");
-            return;
+            return "Formato de DNI no válido.";
         }
 
         // Comprobar que no exista ya un usuario con ese DNI
         if (UsuarioDao.buscarUsuarioPorDni(dni) != null) {
-            System.out.println("Ya existe un usuario con ese DNI.");
-            return;
+            return "Ya existe un usuario con ese DNI.";
         }
 
         // Validar nombre (solo letras y espacios)
         if (nombre.isEmpty() || !nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-            System.out.println("Nombre no válido.");
-            return;
+            return "Nombre no válido.";
         }
 
         // Validar apellido (solo letras y espacios)
         if (apellido.isEmpty() || !apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-            System.out.println("Apellido no válido.");
-            return;
+            return "Apellido no válido.";
         }
 
         // Validar formato de email
         if (email.isEmpty() || !email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-            System.out.println("Email no válido.");
-            return;
+            return "Email no válido.";
         }
 
         // Validar contraseña (mínimo 6 caracteres y al menos un número)
         if (password.length() < 6 || !password.matches(".*\\d.*")) {
-            System.out.println("Password no válida.");
-            return;
+            return "Password no válida.";
         }
 
         // Crear objeto Usuario con los datos validados
@@ -99,7 +92,7 @@ public class UsuarioService {
         UsuarioDao.insertarUsuario(usuario);
 
         // Mostrar mensaje de confirmación
-        System.out.println("Usuario creado correctamente.");
+        return "Usuario creado correctamente.";
     }
 
     // Mé_todo que actualiza los datos de un usuario existente

@@ -4,6 +4,7 @@ package com.listacompra.interfaces.listacompra.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -107,8 +108,15 @@ public class LoginController {
     @FXML
     private void crearUsuario() {
 
-        // De momento solo mostramos un mensaje de prueba.
-        // Más adelante aquí abriremos la pantalla de registro.
-        System.out.println("Abrir pantalla de creación de usuario");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registro-usuario-view.fxml"));
+            Parent vista = loader.load();
+
+            Stage stage = (Stage) rootLogin.getScene().getWindow();
+            stage.getScene().setRoot(vista);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
