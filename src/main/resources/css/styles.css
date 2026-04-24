@@ -72,6 +72,38 @@
     -fx-spacing: 10;
 }
 
+/* Botón base del menú lateral */
+.btn-menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1f2937;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 14 10 14;
+    -fx-background-radius: 8;
+    -fx-min-width: 170;
+}
+
+/* Hover de los botones del menú lateral */
+.btn-menu:hover {
+    -fx-background-color: #e5e7eb;
+    -fx-cursor: hand;
+}
+
+/* Botón de salida del menú lateral */
+.btn-salir {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #991b1b;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 14 10 14;
+    -fx-background-radius: 8;
+    -fx-min-width: 170;
+}
+
+/* Hover del botón de salida */
+.btn-salir:hover {
+    -fx-background-color: #fecaca;
+    -fx-cursor: hand;
+}
+
 /* Zona inferior de estado */
 .barra-estado {
     -fx-background-color: #eef2f7;

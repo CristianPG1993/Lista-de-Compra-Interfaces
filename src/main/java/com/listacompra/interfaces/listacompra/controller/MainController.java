@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -66,5 +67,15 @@ public class MainController {
     }
 
 
+    @FXML
+    private void onSalir() {
 
+        // Limpiamos la referencia al usuario autenticado.
+        // Aunque la aplicación se cierre, dejamos el estado interno limpio.
+        usuarioAutenticado = null;
+
+        // Cerramos la ventana principal de la aplicación.
+        Stage stage = (Stage) lblEstado.getScene().getWindow();
+        stage.close();
+    }
 }

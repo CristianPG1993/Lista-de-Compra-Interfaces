@@ -3,9 +3,13 @@ package com.listacompra.interfaces.listacompra.controller;
 import com.listacompra.interfaces.listacompra.model.Usuario;
 import com.listacompra.interfaces.listacompra.service.UsuarioService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.io.IOException;
 
 public class EliminarUsuarioController {
 
@@ -100,12 +104,15 @@ public class EliminarUsuarioController {
             // Bloqueamos el botón para evitar pulsaciones repetidas.
             btnEliminar.setDisable(true);
 
-            // Limpiamos los datos mostrados.
-            txtDniBuscar.clear();
-            lblNombre.setText("");
-            lblApellido.setText("");
-            lblEmail.setText("");
-            lblDni.setText("");
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login-view.fxml"));
+                Parent vista = loader.load();
+
+                txtDniBuscar.getScene().setRoot(vista);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         } else {
 

@@ -8,15 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity"
-            maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="550.0"
-            prefWidth="700.0"
-            xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.listacompra.interfaces.listacompra.controller.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.MainController">
    <top>
       <HBox prefHeight="50.0" prefWidth="200.0" styleClass="header-principal" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
          <children>
@@ -27,12 +19,12 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-lateral" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#onMostrarUsuarios" text="Usuarios" />
-            <Button fx:id="btnListasCompra" mnemonicParsing="false" text="Listas Compra" />
-            <Button fx:id="btnProductos" mnemonicParsing="false" text="Productos" />
-            <Button fx:id="btnAnadirProducto" mnemonicParsing="false" text="Añadir producto a lista" />
-            <Button fx:id="btnMostrarLista" mnemonicParsing="false" text="Mostrar lista" />
-            <Button fx:id="btnSalir" mnemonicParsing="false" text="Salir" />
+            <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#onMostrarUsuarios" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Usuarios" />
+            <Button fx:id="btnListasCompra" mnemonicParsing="false" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Listas Compra" />
+            <Button fx:id="btnProductos" mnemonicParsing="false" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Productos" />
+            <Button fx:id="btnAnadirProducto" mnemonicParsing="false" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Añadir producto a lista" />
+            <Button fx:id="btnMostrarLista" mnemonicParsing="false" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Mostrar lista" />
+            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#onSalir" styleClass="btn-salir" stylesheets="@../css/styles.css" text="Salir" />
          </children>
       </VBox>
    </left>
