@@ -224,3 +224,49 @@
     -fx-text-fill: #16a34a;
     -fx-font-weight: bold;
 }
+
+/* =========================
+   PRODUCTOS VIEW
+   Estilos del formulario y tabla de productos
+========================= */
+
+/* Tabla principal de productos */
+.tabla-productos {
+    -fx-background-color: white;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 4;
+}
+
+/* Cabecera de las columnas */
+.tabla-productos .column-header-background {
+    -fx-background-color: #e9eef5;
+    -fx-background-radius: 8 8 0 0;
+}
+
+/* Texto de las cabeceras */
+.tabla-productos .column-header .label {
+    -fx-text-fill: #1f2937;
+    -fx-font-weight: bold;
+}
+
+/* Filas de la tabla */
+.tabla-productos .table-row-cell {
+    -fx-background-color: white;
+}
+
+/* Hover sobre filas */
+.tabla-productos .table-row-cell:hover {
+    -fx-background-color: #f1f5f9;
+}
+
+/* Fila seleccionada */
+.tabla-productos .table-row-cell:selected {
+    -fx-background-color: #bfdbfe;
+}
+
+/* Texto de celda seleccionada */
+.tabla-productos .table-row-cell:selected .text {
+    -fx-fill: #1e3a8a;
+}
