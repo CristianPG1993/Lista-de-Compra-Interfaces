@@ -7,7 +7,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="641.0" spacing="10.0" styleClass="container-form" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.RegistroUsuarioController">
+<VBox maxHeight="-Infinity"
+      maxWidth="-Infinity"
+      minHeight="-Infinity"
+      minWidth="-Infinity"
+      prefHeight="550.0"
+      prefWidth="700.0"
+      spacing="10.0"
+      styleClass="container-form"
+      stylesheets="@../css/styles.css"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.listacompra.interfaces.listacompra.controller.RegistroUsuarioController">
    <children>
       <Label styleClass="titulo-modulo" stylesheets="@../css/styles.css" text="Registro de Usuario" />
       <TextField fx:id="txtDni" promptText="DNI" styleClass="input-form" stylesheets="@../css/styles.css" />

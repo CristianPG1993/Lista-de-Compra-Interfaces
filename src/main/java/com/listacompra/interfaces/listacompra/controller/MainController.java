@@ -27,17 +27,18 @@ public class MainController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/usuarios-view.fxml"));
             Parent vista = loader.load();
 
-            UsuariosController controller = new UsuariosController();
-            controller.setMainController(this);
-
 
             contenidoCentral.getChildren().clear();
-            StackPane.setAlignment(vista, Pos.TOP_CENTER);
+            StackPane.setAlignment(vista, Pos.CENTER);
             contenidoCentral.getChildren().add(vista);
         } catch (IOException e) {
             e.printStackTrace();
             lblEstado.setText("Error al cargar la vista de usuarios");
         }
+    }
+
+    public void mostrarMensajeEstado(String mensaje) {
+        lblEstado.setText(mensaje);
     }
 
 

@@ -95,27 +95,54 @@ public class UsuarioService {
         return "Usuario creado correctamente.";
     }
 
-    // Mé_todo que actualiza los datos de un usuario existente
-    // Se identifica al usuario mediante su DNI
-    public void actualizarUsuario(String dni, String nombre, String apellido, String email, String password) {
+    // Mé_todo que actualiza los datos de un usuario existente.
+    // Se busca al usuario por DNI y, si existe, se validan los nuevos datos antes de guardar.
+    public String actualizarUsuario(String dni, String nombre, String apellido, String email, String password) {
 
-        // Buscar usuario en la base de datos
-        Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
-
-        // Si no existe, cancelar operación
-        if (usuario == null) {
-            System.out.println("No se encontró ningún usuario con ese DNI.");
-            return;
+        // Validamos que el DNI no esté vacío, porque lo usamos para localizar al usuario.
+        if (dni == null || dni.isEmpty()) {
+            return "El DNI no puede estar vacío.";
         }
 
-        // Actualizar los campos del usuario
+        // Buscamos el usuario en la base de datos mediante el DNI.
+        Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
+
+        // Si no existe ningún usuario con ese DNI, no podemos actualizar.
+        if (usuario == null) {
+            return "No se encontró ningún usuario con ese DNI.";
+        }
+
+        // Validamos que el nombre no esté vacío y que solo contenga letras y espacios.
+        if (nombre == null || nombre.isEmpty() || !nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            return "Nombre no válido.";
+        }
+
+        // Validamos que el apellido no esté vacío y que solo contenga letras y espacios.
+        if (apellido == null || apellido.isEmpty() || !apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            return "Apellido no válido.";
+        }
+
+        // Validamos que el email tenga un formato correcto.
+        if (email == null || email.isEmpty() || !email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            return "Email no válido.";
+        }
+
+        // Validamos la contraseña: mínimo 6 caracteres y al menos un número.
+        if (password == null || password.length() < 6 || !password.matches(".*\\d.*")) {
+            return "Password no válida.";
+        }
+
+        // Actualizamos los datos del objeto usuario recuperado de la base de datos.
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setEmail(email);
         usuario.setPassword(password);
 
-        // Guardar cambios en la base de datos
+        // Delegamos la actualización real al DAO.
         UsuarioDao.actualizarUsuario(usuario);
+
+        // Devolvemos OK para que la interfaz pueda mostrar un mensaje de éxito.
+        return "OK";
     }
 
     // Mé_todo que elimina un usuario a partir de su DNI

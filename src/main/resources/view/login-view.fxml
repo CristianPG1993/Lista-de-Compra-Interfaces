@@ -9,7 +9,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="rootLogin" alignment="CENTER" prefHeight="420.0" prefWidth="520.0" spacing="10" styleClass="container-login" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.LoginController">
+<VBox fx:id="rootLogin"
+      alignment="CENTER"
+      prefHeight="550.0"
+      prefWidth="700.0"
+      spacing="10"
+      styleClass="container-login"
+      stylesheets="@../css/styles.css"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.listacompra.interfaces.listacompra.controller.LoginController">
    <ImageView fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../images/logoCompra.png" />

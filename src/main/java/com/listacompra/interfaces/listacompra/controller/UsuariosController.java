@@ -1,51 +1,43 @@
 package com.listacompra.interfaces.listacompra.controller;
 
-import com.listacompra.interfaces.listacompra.service.UsuarioService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 public class UsuariosController {
 
     @FXML
-    private Button btnCrearUsuario;
-    private MainController mainController;
+    private VBox rootUsuarios;
+    @FXML
+    private Button btnActualizarUsuario;
 
 
     @FXML
-    private void onCrearUsuario() {
+    private void onActualizarUsuario() {
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/registro-usuario-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/actualizar_usuario-view.fxml"));
+
             Parent vista = loader.load();
 
-            btnCrearUsuario.getScene().setRoot(vista);
+            StackPane contenedorCentral = (StackPane) rootUsuarios.getParent();
+            contenedorCentral.getChildren().clear();
+            StackPane.setAlignment(vista, Pos.TOP_CENTER);
+            contenedorCentral.getChildren().add(vista);
 
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void onActualizarUsuario(){
+    private void onEliminarUsuario() {
 
     }
-
-    @FXML
-    public void onEliminarUsuario() {
-    }
-
-
-    @FXML
-    private void onVolver(){}
-
-
-    //Setter para preparar la comunicación entre Maincontroller y UsuariosController
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
 
 }

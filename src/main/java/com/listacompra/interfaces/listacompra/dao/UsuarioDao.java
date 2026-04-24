@@ -199,10 +199,7 @@ public class UsuarioDao {
             //Comprobar si se ha actualizado correctamente el usuario.
             if (filas > 0){
 
-                System.out.println("Usuario modificado correctamente.");
-
             }else {
-                System.out.println("No se encontró el usuario.");
             }
 
             //Cierre de recursos
