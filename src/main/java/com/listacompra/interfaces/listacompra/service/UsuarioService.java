@@ -145,19 +145,30 @@ public class UsuarioService {
         return "OK";
     }
 
-    // Mé_todo que elimina un usuario a partir de su DNI
-    public void eliminarUsuario(String dni) {
+    // Mé_todo que elimina un usuario a partir de su DNI.
+    // Devuelve un String para que la interfaz gráfica pueda mostrar un mensaje adecuado.
+    public String eliminarUsuario(String dni) {
 
-        // Buscar usuario en la base de datos
-        Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
-
-        // Si no existe, cancelar operación
-        if (usuario == null) {
-            System.out.println("No se encontró ningún usuario con ese DNI.");
-            return;
+        // Validamos que el DNI no sea nulo ni esté vacío.
+        if (dni == null || dni.isEmpty()) {
+            return "El DNI no puede estar vacío.";
         }
 
-        // Eliminar usuario utilizando su ID
+        // Normalizamos el DNI eliminando espacios y convirtiéndolo a mayúsculas.
+        dni = dni.trim().toUpperCase();
+
+        // Buscamos el usuario en la base de datos usando el DNI.
+        Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
+
+        // Si no existe ningún usuario con ese DNI, no se puede eliminar.
+        if (usuario == null) {
+            return "No se encontró ningún usuario con ese DNI.";
+        }
+
+        // Si existe, eliminamos el usuario usando su ID.
         UsuarioDao.eliminarUsuario(usuario.getId());
+
+        // Devolvemos OK para indicar a la interfaz que la operación ha sido correcta.
+        return "OK";
     }
 }

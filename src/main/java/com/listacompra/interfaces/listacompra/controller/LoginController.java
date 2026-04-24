@@ -87,9 +87,20 @@ public class LoginController {
 
             try {
 
-                // 1. Cargar la nueva vista
+                // Creamos el FXMLLoader para cargar la vista principal.
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main-view.fxml"));
-                Scene nuevaEscena = new Scene(loader.load());
+
+                // Cargamos el FXML y obtenemos la raíz de la vista principal.
+                Parent root = loader.load();
+
+                // Obtenemos el controlador asociado a main-view.fxml.
+                MainController mainController = loader.getController();
+
+                // Pasamos al MainController el usuario que ha iniciado sesión.
+                mainController.setUsuarioAutenticado(usuario);
+
+                // Creamos la nueva escena usando la vista principal cargada.
+                Scene nuevaEscena = new Scene(root);
 
                 // 2. Obtener el Stage actual
                 Stage stage = (Stage) txtDni.getScene().getWindow();

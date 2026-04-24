@@ -149,7 +149,7 @@
     -fx-text-fill: white;
     -fx-background-radius: 8;
     -fx-padding: 8 16 8 16;
-    -fx-min-width: 160;
+    -fx-min-width: 120;
 }
 
 .btn-eliminar-usuario:hover {
