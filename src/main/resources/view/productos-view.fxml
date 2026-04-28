@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="360.0" spacing="10.0" styleClass="container-form" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.ProductosController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="560.0" spacing="10.0" styleClass="container-form" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.ProductosController">
    <padding>
       <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
    </padding>
@@ -18,18 +18,18 @@
       <TextField fx:id="txtNombre" promptText="Nombre del producto" styleClass="input-form" stylesheets="@../css/styles.css" />
       <TextField fx:id="txtPrecio" promptText="Precio" styleClass="input-form" stylesheets="@../css/styles.css" />
       <TextField fx:id="txtCategoria" promptText="Categoría" styleClass="input-form" stylesheets="@../css/styles.css" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <HBox alignment="CENTER" spacing="10.0">
          <children>
             <Button fx:id="btnAnadir" mnemonicParsing="false" onAction="#onAnadirProducto" styleClass="btn-registrar" stylesheets="@../css/styles.css" text="Añadir" />
-            <Button fx:id="btnlimpiar" mnemonicParsing="false" onAction="#onLimpiarFormulario" styleClass="btn-volver" stylesheets="@../css/styles.css" text="Limpiar" />
+            <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#onLimpiarFormulario" styleClass="btn-volver" stylesheets="@../css/styles.css" text="Limpiar" />
          </children>
       </HBox>
-      <TableView fx:id="tablaProductos" prefHeight="56.0" prefWidth="328.0" styleClass="tabla-productos" stylesheets="@../css/styles.css">
+      <TableView fx:id="tablaProductos" prefHeight="180.0" prefWidth="500.0" styleClass="tabla-productos" stylesheets="@../css/styles.css">
         <columns>
           <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
-            <TableColumn fx:id="colPrecio" prefWidth="75.0" text="Precio" />
-            <TableColumn fx:id="colCategoria" prefWidth="66.0" text="Categoria" />
+          <TableColumn fx:id="colNombre" prefWidth="150.0" text="Nombre" />
+            <TableColumn fx:id="colPrecio" prefWidth="100.0" text="Precio" />
+            <TableColumn fx:id="colCategoria" prefWidth="170.0" text="Categoria" />
         </columns>
       </TableView>
       <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#onEliminarProducto" styleClass="btn-eliminar-usuario" stylesheets="@../css/styles.css" text="Eliminar seleccionado" />
