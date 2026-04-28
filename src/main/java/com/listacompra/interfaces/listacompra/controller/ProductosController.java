@@ -162,6 +162,24 @@ public class ProductosController {
 
     @FXML
     public void onLimpiarFormulario() {
+
+        // Limpia el campo del nombre del producto
+        txtNombre.clear();
+
+        // Limpia el campo del precio del producto
+        txtPrecio.clear();
+
+        // Limpia el campo de la categoria del producto
+        txtCategoria.clear();
+
+        // Limpia cualquier mensaje mostrado anteriormente
+        lblMensaje.setText("");
+
+        // Elimina los estilos de éxito o error del mensaje
+        lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
+
+        // Devuelve el foco al primer campo del formulario
+        txtNombre.requestFocus();;
     }
 
     @FXML
