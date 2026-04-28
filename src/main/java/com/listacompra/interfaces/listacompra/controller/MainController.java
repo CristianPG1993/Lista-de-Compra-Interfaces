@@ -78,4 +78,35 @@ public class MainController {
         Stage stage = (Stage) lblEstado.getScene().getWindow();
         stage.close();
     }
+
+    public void onMostrarProductos() {
+
+        //Actualizamos la barra de estado para informar al usuario
+        lblEstado.setText("Módulo de productos cargado");
+
+        // Intentamos cargar la vista de productos dentro del panel central
+        try{
+            // Creamos el cargador FXML apuntando a productos-view.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/productos-view.fxml"));
+
+            // Cargamos la vista y la guardamos como nodo raíz
+            Parent vista = loader.load();
+
+            // Limpiamos el contenido actual del panel central
+            contenidoCentral.getChildren().clear();
+
+            //Centramos la vista dentro del StackPane central
+            StackPane.setAlignment(vista, Pos.CENTER);
+
+            // Añadimos la vista de productos al panel central
+            contenidoCentral.getChildren().add(vista);
+        } catch (IOException e) {
+
+            // Mostramos la traza del error para depuración
+            e.printStackTrace();
+
+            // Informamos al usuario de que la vista no se ha podido cargar
+            lblEstado.setText("Error al cargar la vista de productos");
+        }
+    }
 }
