@@ -9,25 +9,22 @@ import java.util.List;
 public class ProductoService {
 
     // Mé_todo que crea un nuevo producto en la base de datos
-    // Valida que los datos introducidos sean correctos antes de insertarlo
-    public void crearProducto(String nombre, BigDecimal precio, String categoria) {
+    // Devuelve un String para que la interfaz gráfica pueda mostrar el resultado
+    public String crearProducto(String nombre, BigDecimal precio, String categoria) {
 
         // Validar que el nombre no esté vacío
         if (nombre.isEmpty()) {
-            System.out.println("El nombre no puede estar vacío.");
-            return;
+            return "El nombre no puede estar vacío.";
         }
 
         // Validar que el precio sea mayor que 0
         if (precio.compareTo(BigDecimal.ZERO) <= 0) {
-            System.out.println("El precio debe ser mayor que 0.");
-            return;
+            return "El precio debe ser mayor que 0.";
         }
 
-        // Validar que la categoría no esté vacía
-        if (categoria.isEmpty()) {
-            System.out.println("La categoría no puede estar vacía.");
-            return;
+        // Validar que la categoría no esté vacía ni sea nula
+        if (categoria.isEmpty() || categoria == null) {
+            return "La categoría no puede estar vacía.";
         }
 
         // Crear objeto Producto con los datos introducidos
@@ -36,8 +33,7 @@ public class ProductoService {
         // Insertar el producto en la base de datos
         ProductoDao.insertarProducto(producto);
 
-        // Mensaje de confirmación
-        System.out.println("Producto creado correctamente.");
+        return "OK";
     }
 
     // Mé_todo que devuelve todos los productos almacenados en la base de datos

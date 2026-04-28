@@ -94,6 +94,70 @@ public class ProductosController {
 
     @FXML
     public void onAnadirProducto() {
+
+        // Creamos una instancia del servicio de productos.
+        ProductoService productoService = new ProductoService();
+
+        // Variable donde guardermos el precio convertido a BigDecimal.
+        BigDecimal precio;
+
+        // Intentamos convertir el texto del campo precio a BigDecimal
+        try{
+            precio = new BigDecimal(txtPrecio.getText());
+
+        } catch (NumberFormatException e){
+
+            // Mostramos mensaje de error si el precio no es un número válido.
+            lblMensaje.setText("El precio debe ser un número válido.");
+
+            // Quitamos estilo de éxito si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+
+            // Cortamos la ejecución porque no podemos crear el producto sin precio válido.
+            return;
+        }
+
+        // Llamamos al servicio para crear el producto con los datos del formulario
+        String resultado = productoService.crearProducto(
+                txtNombre.getText(),
+                precio,
+                txtCategoria.getText()
+        );
+
+        // Si el resultado del servicio devuelve OK, el producto se ha creado correctamente
+        if(resultado.equals("OK")){
+
+            // Mostramos mensaje de éxito.
+            lblMensaje.setText("Producto añadido correctamente.");
+
+            // Quitamos estilo de error si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-error");
+
+            // Aplicamos estilo de éxito.
+            lblMensaje.getStyleClass().add("mensaje-exito");
+
+            // Limpiamos los campos del formulario.
+            txtNombre.clear();
+            txtPrecio.clear();
+            txtCategoria.clear();
+
+            // Recargamos la tabla para mostrar el nuevo producto.
+            cargarProductos();
+
+        } else {
+
+            // Si el servicio devuelve otro texto, es un mensaje de validación.
+            lblMensaje.setText(resultado);
+
+            // Quitamos estilo de éxito si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
     }
 
     @FXML
