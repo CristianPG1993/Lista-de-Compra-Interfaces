@@ -91,29 +91,26 @@ public class ProductoService {
         ProductoDao.actualizarProducto(producto);
     }
 
-    // Mé_todo que elimina un producto existente
-    // El producto se selecciona por índice
-    public void eliminarProducto(int indiceSeleccionado) {
+    // Mé_todo que elimina un producto usando directamente su ID.
+    public String eliminarProductoPorId(int idProducto) {
 
-        // Obtener todos los productos
-        List<Producto> productos = ProductoDao.listarProductos();
-
-        // Comprobar si hay productos registrados
-        if (productos.isEmpty()) {
-            System.out.println("No hay productos registrados.");
-            return;
+        // Validamos que el ID recibido sea válido.
+        if (idProducto <= 0) {
+            return "Producto no válido.";
         }
 
-        // Validar que el índice seleccionado sea correcto
-        if (indiceSeleccionado < 1 || indiceSeleccionado > productos.size()) {
-            System.out.println("Opción no válida.");
-            return;
+        // Buscamos el producto en la base de datos para comprobar que existe.
+        Producto producto = ProductoDao.buscarProductoPorId(idProducto);
+
+        // Si no existe ningún producto con ese ID, devolvemos mensaje de error.
+        if (producto == null) {
+            return "No se encontró el producto.";
         }
 
-        // Obtener el producto seleccionado
-        Producto producto = productos.get(indiceSeleccionado - 1);
+        // Eliminamos el producto usando el DAO.
+        ProductoDao.eliminarProducto(idProducto);
 
-        // Eliminar el producto usando su ID en la base de datos
-        ProductoDao.eliminarProducto(producto.getIdProducto());
+        // Devolvemos OK para que el controlador pueda mostrar mensaje de éxito.
+        return "OK";
     }
 }

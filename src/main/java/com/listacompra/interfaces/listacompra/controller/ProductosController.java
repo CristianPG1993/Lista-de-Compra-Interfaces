@@ -184,5 +184,56 @@ public class ProductosController {
 
     @FXML
     public void onEliminarProducto() {
+
+        // Obtenemos el producto seleccionado actualmente en la tabla
+        Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
+
+        // Si no hay ningún producto seleccionado, mostramos error
+        if (productoSeleccionado == null) {
+
+            // Mostramos mensaje de error
+            lblMensaje.setText("Selecciona un producto para eliminar.");
+
+            // Quitamos estilo de éxito si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error
+            lblMensaje.getStyleClass().add("mensaje-error");
+
+            // Cortamos la ejecución porque no hay producto seleccionado
+            return;
+        }
+
+        // Creamos una instancia del servicio de productos
+        ProductoService productoService = new ProductoService();
+
+        String resultado = productoService.eliminarProductoPorId(productoSeleccionado.getIdProducto());
+
+        // Si el servicio devuelve OK, la eliminación ha sido correcta
+        if (resultado.equals("OK")) {
+
+            // Mostramos mensaje de éxito
+            lblMensaje.setText("Producto eliminado correctamente.");
+
+            // Quitamos estilo de error si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-error");
+
+            // Aplicamos estilo de éxito.
+            lblMensaje.getStyleClass().add("mensaje-exito");
+
+            // Recargamos la tabla para que desaparezca el producto eliminado
+            cargarProductos();
+
+        } else {
+
+            // Si el servicio devuelve otro texto, es un error de validación o búsqueda
+            lblMensaje.setText(resultado);
+
+            // Quitamos estilo de éxito si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
     }
 }
