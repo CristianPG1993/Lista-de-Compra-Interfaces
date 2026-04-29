@@ -10,63 +10,72 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// Clase DAO encargada de gestionar los productos añadidos a las listas de compra
 public class ItemListaDao {
 
-    //Mé_todo para insertar un item en una lista de compra
-    public static void insertarItemLista(ItemLista item){
+    // Mé_todo para insertar un item en una lista de compra
+    public static void insertarItemLista(ItemLista item) {
 
-        //Query SQL para insertar el item
+        // Query SQL para insertar el item
         String sql = "INSERT INTO itemslista(idProducto, idLista, cantidad, precioUnitario, comprado) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
-        try{
-            //Se obtiene la conexión a la base de datos
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se prepara la consulta
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            //Se asignan los parámetros
+            // Se asignan los parámetros del item
             ps.setInt(1, item.getProducto().getIdProducto());
             ps.setInt(2, item.getListaCompra().getIdLista());
             ps.setInt(3, item.getCantidad());
             ps.setBigDecimal(4, item.getPrecioUnitario());
             ps.setBoolean(5, item.isComprado());
 
-            //Se ejecuta la inserción
+            // Se ejecuta la inserción
             ps.executeUpdate();
 
-            //Cierre de recursos
+            // Se cierran los recursos
             ps.close();
             connection.close();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static List<ItemLista> listarItemsPorLista(int idLista){
+    // Mé_todo para listar todos los items de una lista concreta
+    public static List<ItemLista> listarItemsPorLista(int idLista) {
 
+        // Lista donde se almacenan los items recuperados
         List<ItemLista> items = new ArrayList<>();
 
+        // Query SQL con JOIN para obtener los items y sus productos asociados
         String sql = "SELECT il.idItem, il.idLista, il.cantidad, il.precioUnitario, il.comprado, " +
                 "p.idProducto, p.nombre, p.precio, p.categoria " +
                 "FROM itemslista il " +
                 "JOIN productos p ON il.idProducto = p.idProducto " +
                 "WHERE il.idLista = ?";
 
-        try{
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
+            // Se asigna el ID de la lista
             ps.setInt(1, idLista);
 
+            // Se ejecuta la consulta
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()){
+            // Se recorren los items encontrados
+            while (rs.next()) {
 
-                // Se crea el producto con los datos obtenidos del JOIN
+                // Se crea el producto asociado al item
                 Producto producto = new Producto(
                         rs.getInt("idProducto"),
                         rs.getString("nombre"),
@@ -74,7 +83,7 @@ public class ItemListaDao {
                         rs.getString("categoria")
                 );
 
-                // Se crea una lista de compra mínima usando solo el id
+                // Se crea una lista de compra mínima usando solo el ID
                 ListaCompra listaCompra = new ListaCompra();
                 listaCompra.setIdLista(rs.getInt("idLista"));
 
@@ -88,94 +97,86 @@ public class ItemListaDao {
                         rs.getBoolean("comprado")
                 );
 
+                // Se añade el item a la lista
                 items.add(item);
             }
 
-            //Cierre de recursos
+            // Se cierran los recursos
             rs.close();
             ps.close();
             connection.close();
 
         } catch (SQLException e) {
-            //Muestra el error en caso de fallo
             e.printStackTrace();
         }
 
-        //Devuelve la lista con los items
+        // Se devuelve la lista con los items
         return items;
     }
 
-    //Mé_todo para marcar un item de la lista como comprado
-    public static void marcarComoComprado(int idItem){
+    // Mé_todo para marcar un item de la lista como comprado
+    public static void marcarComoComprado(int idItem) {
 
-        //Query SQL que actualiza el estado del item a comprado (true)
+        // Query SQL que actualiza el estado del item a comprado
         String sql = "UPDATE itemslista SET comprado = true WHERE idItem = ?";
 
-        try{
-            //Se obtiene la conexión a la base de datos
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se prepara la consulta SQL
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            //Se asigna el id del item al parámetro de la query
+            // Se asigna el ID del item al parámetro de la query
             ps.setInt(1, idItem);
 
-            //Se ejecuta la actualización y se obtiene el número de filas afectadas
-            int filas = ps.executeUpdate();
+            // Se ejecuta la actualización
+            ps.executeUpdate();
 
-            //Se comprueba si el item se ha actualizado correctamente
-            if (filas > 0){
-                System.out.println("Item marcado como comprado.");
-            } else {
-                System.out.println("No se encontró el item.");
-            }
-
-            //Cierre de recursos
+            // Se cierran los recursos
             ps.close();
             connection.close();
 
         } catch (SQLException e) {
-            //Muestra el error en caso de fallo
             e.printStackTrace();
         }
     }
 
-    //Mé_todo para calcular el precio total de una lista de compra
-    public static BigDecimal calcularPrecioTotalLista(int idLista){
+    // Mé_todo para calcular el precio total de una lista de compra
+    public static BigDecimal calcularPrecioTotalLista(int idLista) {
 
-        //Variable donde se guardará el total
+        // Variable donde se guarda el total calculado
         BigDecimal total = BigDecimal.ZERO;
 
-        //Query SQL para sumar el total de la lista
+        // Query SQL para sumar el total de la lista
         String sql = "SELECT SUM(cantidad * precioUnitario) AS total " +
                 "FROM itemslista " +
                 "WHERE idLista = ?";
 
-        try{
-            //Se obtiene la conexión a la base de datos
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se prepara la consulta
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            //Se asigna el id de la lista
+            // Se asigna el ID de la lista
             ps.setInt(1, idLista);
 
-            //Se ejecuta la consulta
+            // Se ejecuta la consulta
             ResultSet rs = ps.executeQuery();
 
-            //Si hay resultado, se obtiene el total
-            if(rs.next()){
+            // Si hay resultado, se obtiene el total
+            if (rs.next()) {
                 total = rs.getBigDecimal("total");
 
-                //Si la lista está vacía puede devolver null
-                if (total == null){
+                // Si la lista está vacía, SUM puede devolver null
+                if (total == null) {
                     total = BigDecimal.ZERO;
                 }
             }
 
-            //Cierre de recursos
+            // Se cierran los recursos
             rs.close();
             ps.close();
             connection.close();
@@ -184,7 +185,7 @@ public class ItemListaDao {
             e.printStackTrace();
         }
 
-        //Se devuelve el total calculado
+        // Se devuelve el total calculado
         return total;
     }
 }

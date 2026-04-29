@@ -27,7 +27,7 @@
       <TextField fx:id="txtEmail" promptText="Email" styleClass="input-form" stylesheets="@../css/styles.css" />
       <PasswordField fx:id="txtPassword" promptText="Contraseña" styleClass="input-form" stylesheets="@../css/styles.css" />
       <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#onRegistrarUsuario" styleClass="btn-registrar" stylesheets="@../css/styles.css" text="Registrar" />
-      <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#onVolver" styleClass="btn-volver" stylesheets="@../css/styles.css" text="Volver" />
+      <Button mnemonicParsing="false" onAction="#onVolver" styleClass="btn-volver" stylesheets="@../css/styles.css" text="Volver" />
       <Label fx:id="lblMensaje" alignment="CENTER" maxHeight="300.0" maxWidth="300.0" text="" wrapText="true" />
    </children>
    <padding>

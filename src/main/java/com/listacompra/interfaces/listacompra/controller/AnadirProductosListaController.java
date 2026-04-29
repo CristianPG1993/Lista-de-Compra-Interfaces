@@ -8,19 +8,19 @@ import com.listacompra.interfaces.listacompra.service.ListaCompraService;
 import com.listacompra.interfaces.listacompra.service.ProductoService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
+// Controlador encargado de añadir productos a una lista de compra
 public class AnadirProductosListaController {
 
-    // ComboBox donde se mostrarán las listas de compra del usuario autenticado
+    // ComboBox donde se muestran las listas de compra del usuario autenticado
     @FXML
     private ComboBox<ListaCompra> cmbListas;
 
-    // ComboBox donde se mostrarán los productos disponibles
+    // ComboBox donde se muestran los productos disponibles
     @FXML
     private ComboBox<Producto> cmbProductos;
 
@@ -28,29 +28,13 @@ public class AnadirProductosListaController {
     @FXML
     private TextField txtCantidad;
 
-    // Botón para añadir el producto seleccionado a la lista seleccionada
-    @FXML
-    private Button btnAnadir;
-
-    // Botón para limpiar el formulario.
-    @FXML
-    private Button btnLimpiar;
-
-    // Label para mostrar mensajes de éxito o error.
+    // Label para mostrar mensajes de éxito o error
     @FXML
     private Label lblMensaje;
 
-    // Usuario que ha iniciado sesión, se utiliza para cear y mostrar solo las listas del usuario
+    // Usuario que ha iniciado sesión
+    // Se utiliza para cargar solo sus listas de compra
     private Usuario usuarioAutenticado;
-
-    // Recibe el usuario autenticado desde MainController
-    public void setUsuarioAutenticado(Usuario usuarioAutenticado){
-
-        this.usuarioAutenticado = usuarioAutenticado;
-
-        cargarDatosFormulario();
-
-    }
 
     // Mé_todo que se ejecuta automáticamente al cargar la vista FXML
     @FXML
@@ -60,16 +44,22 @@ public class AnadirProductosListaController {
         configurarComboBoxes();
     }
 
+    // Recibe el usuario autenticado desde MainController
+    public void setUsuarioAutenticado(Usuario usuarioAutenticado) {
+
+        // Guardamos el usuario autenticado
+        this.usuarioAutenticado = usuarioAutenticado;
+
+        // Cargamos las listas del usuario y los productos disponibles
+        cargarDatosFormulario();
+    }
+
     // Carga las listas del usuario autenticado y los productos disponibles en los ComboBox
     private void cargarDatosFormulario() {
 
         // Comprobamos que exista un usuario autenticado
         if (usuarioAutenticado == null) {
-
-            // Mostramos mensaje de error si no hay usuario autenticado
-            lblMensaje.setText("No hay usuario autenticado.");
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-            lblMensaje.getStyleClass().add("mensaje-error");
+            mostrarMensaje("No hay usuario autenticado", false);
             return;
         }
 
@@ -96,13 +86,12 @@ public class AnadirProductosListaController {
     private void configurarComboBoxes() {
 
         // Indicamos cómo debe mostrarse cada ListaCompra dentro del ComboBox
-        // En lugar de mostrar to_do el objeto, mostramos solo el nombre de la lista
         cmbListas.setConverter(new StringConverter<ListaCompra>() {
 
             @Override
             public String toString(ListaCompra lista) {
 
-                // Si la lista es null, devolvemos texto vacío para evitar errores.
+                // Si la lista es null, devolvemos texto vacío para evitar errores
                 if (lista == null) {
                     return "";
                 }
@@ -120,7 +109,6 @@ public class AnadirProductosListaController {
         });
 
         // Indicamos cómo debe mostrarse cada Producto dentro del ComboBox
-        // En lugar de mostrar to_do el objeto, mostramos solo el nombre del producto
         cmbProductos.setConverter(new StringConverter<Producto>() {
 
             @Override
@@ -144,6 +132,7 @@ public class AnadirProductosListaController {
         });
     }
 
+    // Añade el producto seleccionado a la lista seleccionada
     @FXML
     private void onAnadirProductoLista() {
 
@@ -155,110 +144,83 @@ public class AnadirProductosListaController {
 
         // Validamos que se haya seleccionado una lista
         if (listaSeleccionada == null) {
-
-            // Mostramos mensaje de error
-            lblMensaje.setText("Selecciona una lista.");
-
-            // Quitamos estilo de éxito si estaba aplicado
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos estilo de error
-            lblMensaje.getStyleClass().add("mensaje-error");
-
+            mostrarMensaje("Selecciona una lista", false);
             return;
         }
 
         // Validamos que se haya seleccionado un producto
         if (productoSeleccionado == null) {
-
-            // Mostramos mensaje de error
-            lblMensaje.setText("Selecciona un producto.");
-
-            // Quitamos estilo de éxito si estaba aplicado
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos estilo de error
-            lblMensaje.getStyleClass().add("mensaje-error");
-
-            // Cortamos la ejecución.
+            mostrarMensaje("Selecciona un producto", false);
             return;
         }
 
-        // Variable donde guardaremos la cantidad convertida a número entero.
+        // Variable donde guardaremos la cantidad convertida a número entero
         int cantidad;
 
-        // Intentamos convertir el texto de cantidad a int.
+        // Intentamos convertir el texto de cantidad a int
         try {
-
             cantidad = Integer.parseInt(txtCantidad.getText());
 
         } catch (NumberFormatException e) {
-
-            // Si el usuario escribe texto o deja el campo vacío, mostramos error.
-            lblMensaje.setText("La cantidad debe ser un número entero.");
-
-            // Quitamos estilo de éxito si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos estilo de error.
-            lblMensaje.getStyleClass().add("mensaje-error");
-
-            // Cortamos la ejecución.
+            mostrarMensaje("La cantidad debe ser un número entero", false);
             return;
         }
 
-        // Creamos el servicio encargado de añadir productos a listas.
+        // Creamos el servicio encargado de añadir productos a listas
         ItemListaService itemListaService = new ItemListaService();
 
-        // Añadimos el producto seleccionado a la lista seleccionada.
+        // Añadimos el producto seleccionado a la lista seleccionada
         String resultado = itemListaService.anadirProductoALista(
                 listaSeleccionada.getIdLista(),
                 productoSeleccionado.getIdProducto(),
                 cantidad
         );
 
-        // Si el servicio devuelve OK, la operación fue correcta.
+        // Si el servicio devuelve OK, la operación fue correcta
         if (resultado.equals("OK")) {
 
-            // Mostramos mensaje de éxito.
-            lblMensaje.setText("Producto añadido a la lista correctamente.");
+            // Mostramos mensaje de éxito
+            mostrarMensaje("Producto añadido a la lista correctamente", true);
 
-            // Quitamos estilo de error si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-error");
-
-            // Aplicamos estilo de éxito.
-            lblMensaje.getStyleClass().add("mensaje-exito");
-
-            // Limpiamos solo la cantidad para poder seguir añadiendo productos rápidamente.
+            // Limpiamos solo la cantidad para poder seguir añadiendo productos rápidamente
             txtCantidad.clear();
 
         } else {
 
-            // Si el servicio devuelve otro texto, mostramos el error.
-            lblMensaje.setText(resultado);
-
-            // Quitamos estilo de éxito si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos estilo de error.
-            lblMensaje.getStyleClass().add("mensaje-error");
+            // Mostramos el error devuelto por el servicio
+            mostrarMensaje(resultado, false);
         }
     }
 
+    // Limpia solo el campo de cantidad y el mensaje
     @FXML
     private void onLimpiarFormulario() {
 
-        // Limpiamos solo el campo de cantidad.
-        // Mantenemos la lista y el producto seleccionados para evitar que el ComboBox pierda el prompt visual.
+        // Limpiamos solo el campo de cantidad
         txtCantidad.clear();
 
-        // Limpiamos cualquier mensaje mostrado anteriormente.
+        // Limpiamos el mensaje y sus estilos
         lblMensaje.setText("");
-
-        // Eliminamos estilos de éxito o error del label de mensaje.
         lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
 
-        // Devolvemos el foco al campo cantidad para facilitar introducir otra cantidad.
+        // Devolvemos el foco al campo cantidad
         txtCantidad.requestFocus();
+    }
+
+    // Mé_todo auxiliar para mostrar mensajes de éxito o error
+    private void mostrarMensaje(String mensaje, boolean exito) {
+
+        // Mostramos el texto recibido
+        lblMensaje.setText(mensaje);
+
+        // Eliminamos estilos anteriores
+        lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
+
+        // Aplicamos el estilo correspondiente
+        if (exito) {
+            lblMensaje.getStyleClass().add("mensaje-exito");
+        } else {
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
     }
 }

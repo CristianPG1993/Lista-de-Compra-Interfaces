@@ -1,16 +1,19 @@
 package com.listacompra.interfaces.listacompra.controller;
 
-
 import com.listacompra.interfaces.listacompra.model.Producto;
 import com.listacompra.interfaces.listacompra.service.ProductoService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.math.BigDecimal;
 
+// Controlador encargado de gestionar el módulo de productos
 public class ProductosController {
 
     // Campo para introducir el nombre del producto
@@ -21,51 +24,40 @@ public class ProductosController {
     @FXML
     private TextField txtPrecio;
 
-    // Campo para introducir la categoria del producto
+    // Campo para introducir la categoría del producto
     @FXML
     private TextField txtCategoria;
 
-    // Tabla donde se mostrarán los productos registrados
+    // Tabla donde se muestran los productos registrados
     @FXML
     private TableView<Producto> tablaProductos;
 
-    // Columna para mostrar el ID del producto.
+    // Columna para mostrar el ID del producto
     @FXML
     private TableColumn<Producto, Integer> colId;
 
-    // Columna para mostrar el nombre del producto.
+    // Columna para mostrar el nombre del producto
     @FXML
     private TableColumn<Producto, String> colNombre;
 
-    // Columna para mostrar el precio del producto.
+    // Columna para mostrar el precio del producto
     @FXML
     private TableColumn<Producto, BigDecimal> colPrecio;
 
-    // Columna para mostrar la categoría del producto.
+    // Columna para mostrar la categoría del producto
     @FXML
     private TableColumn<Producto, String> colCategoria;
 
-    // Botón para añadir un producto.
-    @FXML
-    private Button btnAnadir;
-
-    // Botón para limpiar el formulario.
-    @FXML
-    private Button btnLimpiar;
-
-    // Botón para eliminar el producto seleccionado.
-    @FXML
-    private Button btnEliminar;
-
-    // Label para mostrar mensajes de éxito o error.
+    // Label para mostrar mensajes de éxito o error
     @FXML
     private Label lblMensaje;
 
-    //Lista observable que conectará los productos con la tabla JavaFX
+    // Lista observable que conecta los productos con la tabla JavaFX
     private ObservableList<Producto> productosObservable;
 
+    // Mé_todo que se ejecuta al cargar la vista
     @FXML
-    private void initialize(){
+    private void initialize() {
 
         // Asociamos cada columna de la tabla con una propiedad del modelo Producto
         colId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
@@ -77,9 +69,10 @@ public class ProductosController {
         cargarProductos();
     }
 
-    private void cargarProductos(){
+    // Carga los productos desde el servicio y los muestra en la tabla
+    private void cargarProductos() {
 
-        // Creamos una instancia del servicio Productos
+        // Creamos una instancia del servicio de productos
         ProductoService productoService = new ProductoService();
 
         // Convertimos la lista normal del servicio en una lista observable para JavaFX
@@ -89,31 +82,24 @@ public class ProductosController {
         tablaProductos.setItems(productosObservable);
     }
 
+    // Añade un nuevo producto usando los datos del formulario
     @FXML
-    public void onAnadirProducto() {
+    private void onAnadirProducto() {
 
-        // Creamos una instancia del servicio de productos.
+        // Creamos una instancia del servicio de productos
         ProductoService productoService = new ProductoService();
 
-        // Variable donde guardermos el precio convertido a BigDecimal.
+        // Variable donde guardaremos el precio convertido a BigDecimal
         BigDecimal precio;
 
         // Intentamos convertir el texto del campo precio a BigDecimal
-        try{
+        try {
             precio = new BigDecimal(txtPrecio.getText());
 
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
 
-            // Mostramos mensaje de error si el precio no es un número válido.
-            lblMensaje.setText("El precio debe ser un número válido.");
-
-            // Quitamos estilo de éxito si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos estilo de error.
-            lblMensaje.getStyleClass().add("mensaje-error");
-
-            // Cortamos la ejecución porque no podemos crear el producto sin precio válido.
+            // Mostramos mensaje de error si el precio no es válido
+            mostrarMensaje("El precio debe ser un número válido", false);
             return;
         }
 
@@ -124,112 +110,92 @@ public class ProductosController {
                 txtCategoria.getText()
         );
 
-        // Si el resultado del servicio devuelve OK, el producto se ha creado correctamente
-        if(resultado.equals("OK")){
+        // Si el servicio devuelve OK, el producto se ha creado correctamente
+        if (resultado.equals("OK")) {
 
-            // Mostramos mensaje de éxito.
-            lblMensaje.setText("Producto añadido correctamente.");
+            // Mostramos mensaje de éxito
+            mostrarMensaje("Producto añadido correctamente", true);
 
-            // Quitamos estilo de error si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-error");
-
-            // Aplicamos estilo de éxito.
-            lblMensaje.getStyleClass().add("mensaje-exito");
-
-            // Limpiamos los campos del formulario.
+            // Limpiamos los campos del formulario
             txtNombre.clear();
             txtPrecio.clear();
             txtCategoria.clear();
 
-            // Recargamos la tabla para mostrar el nuevo producto.
+            // Recargamos la tabla para mostrar el nuevo producto
             cargarProductos();
 
         } else {
 
-            // Si el servicio devuelve otro texto, es un mensaje de validación.
-            lblMensaje.setText(resultado);
-
-            // Quitamos estilo de éxito si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos estilo de error.
-            lblMensaje.getStyleClass().add("mensaje-error");
+            // Si el servicio devuelve otro texto, es un mensaje de validación
+            mostrarMensaje(resultado, false);
         }
     }
 
+    // Limpia los campos del formulario de productos
     @FXML
-    public void onLimpiarFormulario() {
+    private void onLimpiarFormulario() {
 
-        // Limpia el campo del nombre del producto
+        // Limpiamos los campos del formulario
         txtNombre.clear();
-
-        // Limpia el campo del precio del producto
         txtPrecio.clear();
-
-        // Limpia el campo de la categoria del producto
         txtCategoria.clear();
 
-        // Limpia cualquier mensaje mostrado anteriormente
+        // Limpiamos el mensaje y sus estilos
         lblMensaje.setText("");
-
-        // Elimina los estilos de éxito o error del mensaje
         lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
 
-        // Devuelve el foco al primer campo del formulario
-        txtNombre.requestFocus();;
+        // Devolvemos el foco al campo nombre
+        txtNombre.requestFocus();
     }
 
+    // Elimina el producto seleccionado en la tabla
     @FXML
-    public void onEliminarProducto() {
+    private void onEliminarProducto() {
 
         // Obtenemos el producto seleccionado actualmente en la tabla
         Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
 
         // Si no hay ningún producto seleccionado, mostramos error
         if (productoSeleccionado == null) {
-
-            // Mostramos mensaje de error
-            lblMensaje.setText("Selecciona un producto para eliminar.");
-
-            // Quitamos estilo de éxito si estaba aplicado
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos estilo de error
-            lblMensaje.getStyleClass().add("mensaje-error");
-
-            // Cortamos la ejecución porque no hay producto seleccionado
+            mostrarMensaje("Selecciona un producto para eliminar", false);
             return;
         }
 
         // Creamos una instancia del servicio de productos
         ProductoService productoService = new ProductoService();
 
+        // Eliminamos el producto usando su ID real de base de datos
         String resultado = productoService.eliminarProductoPorId(productoSeleccionado.getIdProducto());
 
         // Si el servicio devuelve OK, la eliminación ha sido correcta
         if (resultado.equals("OK")) {
 
             // Mostramos mensaje de éxito
-            lblMensaje.setText("Producto eliminado correctamente.");
-
-            // Quitamos estilo de error si estaba aplicado
-            lblMensaje.getStyleClass().removeAll("mensaje-error");
-
-            // Aplicamos estilo de éxito.
-            lblMensaje.getStyleClass().add("mensaje-exito");
+            mostrarMensaje("Producto eliminado correctamente", true);
 
             // Recargamos la tabla para que desaparezca el producto eliminado
             cargarProductos();
 
         } else {
 
-            // Si el servicio devuelve otro texto, es un error de validación o búsqueda
-            lblMensaje.setText(resultado);
+            // Si el servicio devuelve otro texto, mostramos el error
+            mostrarMensaje(resultado, false);
+        }
+    }
 
-            // Quitamos estilo de éxito si estaba aplicado
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+    // Mé_todo auxiliar para mostrar mensajes de éxito o error
+    private void mostrarMensaje(String mensaje, boolean exito) {
 
-            // Aplicamos estilo de error.
+        // Mostramos el texto recibido
+        lblMensaje.setText(mensaje);
+
+        // Eliminamos estilos anteriores
+        lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
+
+        // Aplicamos el estilo correspondiente
+        if (exito) {
+            lblMensaje.getStyleClass().add("mensaje-exito");
+        } else {
             lblMensaje.getStyleClass().add("mensaje-error");
         }
     }

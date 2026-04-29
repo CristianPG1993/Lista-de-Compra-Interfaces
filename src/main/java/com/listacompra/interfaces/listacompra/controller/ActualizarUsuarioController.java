@@ -1,160 +1,140 @@
 package com.listacompra.interfaces.listacompra.controller;
 
-import com.listacompra.interfaces.listacompra.dao.UsuarioDao;
 import com.listacompra.interfaces.listacompra.model.Usuario;
 import com.listacompra.interfaces.listacompra.service.UsuarioService;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+// Controlador encargado de actualizar los datos del usuario autenticado
 public class ActualizarUsuarioController {
 
+    // Campo donde se muestra el DNI del usuario autenticado
     @FXML
     private TextField txtDniBuscar;
 
+    // Campo donde se muestra o modifica el nombre
     @FXML
     private TextField txtNombre;
 
+    // Campo donde se muestra o modifica el apellido
     @FXML
     private TextField txtApellido;
 
+    // Campo donde se muestra o modifica el email
     @FXML
     private TextField txtEmail;
 
+    // Campo donde se muestra o modifica la contraseña
     @FXML
     private PasswordField txtPassword;
 
-    @FXML
-    private Button btnBuscar;
-
-    @FXML
-    private Button btnGuardar;
-
-    @FXML
-    private Button btnLimpiar;
-
+    // Label usado para mostrar mensajes de éxito o error
     @FXML
     private Label lblMensaje;
 
-    @FXML
-    private void onBuscarUsuario() {
+    // Usuario que ha iniciado sesión
+    // Se usa para impedir que se actualicen datos de otros usuarios
+    private Usuario usuarioAutenticado;
 
-        // Obtenemos el DNI introducido en el campo de búsqueda.
-        String dni = txtDniBuscar.getText();
+    // Recibe el usuario autenticado desde UsuariosController
+    public void setUsuarioAutenticado(Usuario usuarioAutenticado) {
 
-        // Validamos que el campo DNI no esté vacío.
-        if (dni == null || dni.isEmpty()) {
+        // Guardamos el usuario autenticado en el atributo de clase
+        this.usuarioAutenticado = usuarioAutenticado;
 
-            // Mostramos un mensaje de error en la interfaz.
-            lblMensaje.setText("Introduce un DNI para buscar.");
+        // Cargamos automáticamente sus datos en el formulario
+        txtDniBuscar.setText(usuarioAutenticado.getDni());
+        txtNombre.setText(usuarioAutenticado.getNombre());
+        txtApellido.setText(usuarioAutenticado.getApellido());
+        txtEmail.setText(usuarioAutenticado.getEmail());
+        txtPassword.setText(usuarioAutenticado.getPassword());
 
-            // Quitamos el estilo de éxito por si estaba aplicado anteriormente.
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+        // Bloqueamos el DNI para que no pueda actualizar datos de otro usuario
+        txtDniBuscar.setEditable(false);
 
-            // Aplicamos el estilo de error.
-            lblMensaje.getStyleClass().add("mensaje-error");
-
-            // Cortamos la ejecución del mé_todo porque no se puede buscar sin DNI.
-            return;
-        }
-
-        // Buscamos el usuario en la base de datos usando el DAO.
-        Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
-
-        // Si el DAO devuelve null, significa que no existe ningún usuario con ese DNI.
-        if (usuario == null) {
-
-            // Mostramos el mensaje de error en la interfaz.
-            lblMensaje.setText("No se encontró ningún usuario con ese DNI.");
-
-            // Quitamos el estilo de éxito si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos el estilo de error.
-            lblMensaje.getStyleClass().add("mensaje-error");
-
-            // Cortamos la ejecución porque no hay datos que cargar.
-            return;
-        }
-
-        // Si el usuario existe, cargamos sus datos en los campos del formulario.
-        txtNombre.setText(usuario.getNombre());
-        txtApellido.setText(usuario.getApellido());
-        txtEmail.setText(usuario.getEmail());
-        txtPassword.setText(usuario.getPassword());
-
-        // Mostramos mensaje de éxito.
-        lblMensaje.setText("Usuario encontrado.");
-
-        // Quitamos el estilo de error si estaba aplicado.
-        lblMensaje.getStyleClass().removeAll("mensaje-error");
-
-        // Aplicamos el estilo de éxito.
-        lblMensaje.getStyleClass().add("mensaje-exito");
+        // Mostramos mensaje informativo
+        mostrarMensaje("Solo puede actualizar sus propios datos", true);
     }
 
+    // Guarda los cambios realizados sobre el usuario autenticado
     @FXML
     private void onGuardarCambios() {
 
-        // Creamos una instancia del servicio de usuarios.
-        // El servicio contiene las validaciones y delega la actualización al DAO.
+        // Validamos que exista un usuario autenticado
+        if (usuarioAutenticado == null) {
+            mostrarMensaje("No hay usuario autenticado", false);
+            return;
+        }
+
+        // Creamos el servicio de usuarios
         UsuarioService usuarioService = new UsuarioService();
 
-        // Llamamos al mé_todo actualizarUsuario usando los datos actuales del formulario.
+        // Actualizamos usando siempre el DNI del usuario autenticado
         String resultado = usuarioService.actualizarUsuario(
-                txtDniBuscar.getText(),
+                usuarioAutenticado.getDni(),
                 txtNombre.getText(),
                 txtApellido.getText(),
                 txtEmail.getText(),
                 txtPassword.getText()
         );
 
-        // Si el servicio devuelve OK, la actualización ha sido correcta.
+        // Si el servicio devuelve OK, la actualización ha sido correcta
         if (resultado.equals("OK")) {
 
-            // Mostramos mensaje de éxito.
-            lblMensaje.setText("Usuario actualizado correctamente.");
+            // Actualizamos también el objeto en memoria
+            usuarioAutenticado.setNombre(txtNombre.getText());
+            usuarioAutenticado.setApellido(txtApellido.getText());
+            usuarioAutenticado.setEmail(txtEmail.getText());
+            usuarioAutenticado.setPassword(txtPassword.getText());
 
-            // Quitamos el estilo de error si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-error");
-
-            // Aplicamos el estilo de éxito.
-            lblMensaje.getStyleClass().add("mensaje-exito");
+            mostrarMensaje("Usuario actualizado correctamente", true);
 
         } else {
-
-            // Si el servicio devuelve otro texto, es un mensaje de error de validación.
-            lblMensaje.setText(resultado);
-
-            // Quitamos el estilo de éxito si estaba aplicado.
-            lblMensaje.getStyleClass().removeAll("mensaje-exito");
-
-            // Aplicamos el estilo de error.
-            lblMensaje.getStyleClass().add("mensaje-error");
+            mostrarMensaje(resultado, false);
         }
     }
 
+    // Restaura los datos actuales guardados en el usuario autenticado
     @FXML
     private void onLimpiarFormulario() {
 
-        // Limpia el campo usado para buscar el usuario por DNI.
-        txtDniBuscar.clear();
+        // Si no hay usuario autenticado, no se puede restaurar nada
+        if (usuarioAutenticado == null) {
+            mostrarMensaje("No hay usuario autenticado", false);
+            return;
+        }
 
-        // Limpia los campos editables del formulario.
-        txtNombre.clear();
-        txtApellido.clear();
-        txtEmail.clear();
-        txtPassword.clear();
+        // Restauramos los datos del usuario autenticado
+        txtDniBuscar.setText(usuarioAutenticado.getDni());
+        txtNombre.setText(usuarioAutenticado.getNombre());
+        txtApellido.setText(usuarioAutenticado.getApellido());
+        txtEmail.setText(usuarioAutenticado.getEmail());
+        txtPassword.setText(usuarioAutenticado.getPassword());
 
-        // Limpia cualquier mensaje de éxito o error mostrado anteriormente.
+        // Limpiamos el mensaje y sus estilos
         lblMensaje.setText("");
-
-        // Elimina estilos previos del label para evitar que conserve color verde o rojo.
         lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
 
-        // Devuelve el foco al campo DNI para facilitar una nueva búsqueda.
-        txtDniBuscar.requestFocus();
+        // Devolvemos el foco al campo nombre
+        txtNombre.requestFocus();
+    }
+
+    // Mé_todo auxiliar para mostrar mensajes de éxito o error
+    private void mostrarMensaje(String mensaje, boolean exito) {
+
+        // Mostramos el texto recibido
+        lblMensaje.setText(mensaje);
+
+        // Eliminamos estilos anteriores para evitar mezclar colores
+        lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
+
+        // Aplicamos el estilo correspondiente
+        if (exito) {
+            lblMensaje.getStyleClass().add("mensaje-exito");
+        } else {
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
     }
 }

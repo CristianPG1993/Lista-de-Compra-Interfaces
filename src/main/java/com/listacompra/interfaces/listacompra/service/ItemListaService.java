@@ -10,25 +10,26 @@ import com.listacompra.interfaces.listacompra.model.Producto;
 import java.math.BigDecimal;
 import java.util.List;
 
+// Clase que contiene la lógica de negocio relacionada con los productos dentro de una lista
 public class ItemListaService {
 
-    // Mé_todo que añade un producto a una lista de compra.
-    // Recibe directamente el id de la lista, el id del producto y la cantidad.
+    // Mé_todo que añade un producto a una lista de compra
+    // Recibe directamente el id de la lista, el id del producto y la cantidad
     public String anadirProductoALista(int idLista, int idProducto, int cantidad) {
 
         // Validamos que la lista seleccionada sea válida
         if (idLista <= 0) {
-            return "Selecciona una lista válida.";
+            return "Selecciona una lista válida";
         }
 
         // Validamos que el producto seleccionado sea válido
         if (idProducto <= 0) {
-            return "Selecciona un producto válido.";
+            return "Selecciona un producto válido";
         }
 
         // Validamos que la cantidad sea mayor que cero
         if (cantidad <= 0) {
-            return "La cantidad debe ser mayor que 0.";
+            return "La cantidad debe ser mayor que 0";
         }
 
         // Buscamos la lista en la base de datos
@@ -36,7 +37,7 @@ public class ItemListaService {
 
         // Si no existe la lista, devolvemos error
         if (listaCompra == null) {
-            return "No se encontró la lista seleccionada.";
+            return "No se encontró la lista seleccionada";
         }
 
         // Buscamos el producto en la base de datos
@@ -44,7 +45,7 @@ public class ItemListaService {
 
         // Si no existe el producto, devolvemos error
         if (producto == null) {
-            return "No se encontró el producto seleccionado.";
+            return "No se encontró el producto seleccionado";
         }
 
         // Creamos el item que se añadirá a la lista
@@ -85,5 +86,21 @@ public class ItemListaService {
 
         // Delegamos el cálculo al DAO
         return ItemListaDao.calcularPrecioTotalLista(idLista);
+    }
+
+    // Marca un item concreto de una lista como comprado
+    // Devuelve un String para que JavaFX pueda mostrar el resultado en pantalla
+    public String marcarItemComoComprado(int idItem) {
+
+        // Validamos que el ID del item sea correcto
+        if (idItem <= 0) {
+            return "Item no válido";
+        }
+
+        // Delegamos la actualización al DAO
+        ItemListaDao.marcarComoComprado(idItem);
+
+        // Devolvemos OK para indicar que la operación fue correcta
+        return "OK";
     }
 }

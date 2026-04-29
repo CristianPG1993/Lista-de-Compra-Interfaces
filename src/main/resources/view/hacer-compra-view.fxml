@@ -33,7 +33,6 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Button fx:id="btnMarcarComprado" mnemonicParsing="false" onAction="#onMarcarComprado" styleClass="btn-registrar" stylesheets="@../css/styles.css" text="Marcar como comprado" />
-            <Button fx:id="btnRefrescar" mnemonicParsing="false" onAction="#onRefrescar" styleClass="btn-volver" stylesheets="@../css/styles.css" text="Refrescar" />
          </children>
       </HBox>
       <Label fx:id="lblTotal" text="Total: 0 €" />

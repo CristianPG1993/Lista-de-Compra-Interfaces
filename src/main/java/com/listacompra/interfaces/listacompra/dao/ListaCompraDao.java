@@ -8,36 +8,35 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// Clase DAO encargada de realizar operaciones CRUD sobre la tabla listascompra
 public class ListaCompraDao {
 
     // Mé_todo para insertar una lista de compra en la base de datos
-    public static void insertarListaCompra(ListaCompra listaCompra){
+    public static void insertarListaCompra(ListaCompra listaCompra) {
 
-        // Query SQL correcta (sin *)
+        // Query SQL para insertar una nueva lista de compra
         String sql = "INSERT INTO listascompra (idUsuario, nombreCompra, fechaCreacion) VALUES (?, ?, ?)";
 
-        try{
-            // Obtener conexión
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            // Preparar la query
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            // Asignar parámetros
-            // IMPORTANTE: se obtiene el id del objeto Usuario
+            // Se asigna el id del usuario asociado a la lista
             ps.setInt(1, listaCompra.getUsuario().getId());
 
+            // Se asigna el nombre de la lista
             ps.setString(2, listaCompra.getNombreCompra());
 
-            // Convertir LocalDate a java.sql.Date
+            // Se convierte LocalDate a java.sql.Date
             ps.setDate(3, Date.valueOf(listaCompra.getFechaCreacion()));
 
-            // Ejecutar inserción
+            // Se ejecuta la inserción
             ps.executeUpdate();
 
-            System.out.println("Lista de la compra añadida correctamente.");
-
-            // Cerrar recursos
+            // Se cierran los recursos
             ps.close();
             connection.close();
 
@@ -46,30 +45,32 @@ public class ListaCompraDao {
         }
     }
 
-    //Mé_todo para listar todas las listas de compra de la base de datos
-    public static List<ListaCompra> listarListasCompras(){
+    // Mé_todo para listar todas las listas de compra de la base de datos
+    public static List<ListaCompra> listarListasCompras() {
 
-        //Lista donde se guardarán todas las listas obtenidas de la base de datos
+        // Lista donde se guardan todas las listas obtenidas de la base de datos
         List<ListaCompra> listas = new ArrayList<>();
 
-        //Query SQL con JOIN para obtener las listas y su usuario asociado en una sola consulta
+        // Query SQL con JOIN para obtener las listas y su usuario asociado
         String sql = "SELECT lc.idLista, lc.nombreCompra, lc.fechaCreacion, " +
-                "u.id, u.nombre, u.apellido, u.email, u.password " +
+                "u.id, u.dni, u.nombre, u.apellido, u.email, u.password " +
                 "FROM listascompra lc " +
                 "JOIN usuarios u ON lc.idUsuario = u.id";
 
-        try{
-            //Se obtiene la conexión a la base de datos
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se crea la consulta SQL
+            // Se crea la consulta SQL
             Statement stmt = connection.createStatement();
+
+            // Se ejecuta la consulta
             ResultSet rs = stmt.executeQuery(sql);
 
-            //Se recorren todas las filas devueltas por la consulta
-            while (rs.next()){
+            // Se recorren todas las filas devueltas por la consulta
+            while (rs.next()) {
 
-                //Se crea el objeto Usuario con los datos obtenidos del JOIN
+                // Se crea el objeto Usuario con los datos obtenidos del JOIN
                 Usuario usuario = new Usuario(
                         rs.getInt("id"),
                         rs.getString("dni"),
@@ -79,7 +80,7 @@ public class ListaCompraDao {
                         rs.getString("password")
                 );
 
-                //Se crea el objeto ListaCompra con los datos obtenidos de la BD
+                // Se crea el objeto ListaCompra con los datos obtenidos
                 ListaCompra listaCompra = new ListaCompra(
                         rs.getInt("idLista"),
                         usuario,
@@ -87,11 +88,11 @@ public class ListaCompraDao {
                         rs.getDate("fechaCreacion").toLocalDate()
                 );
 
-                //Se añade la lista a la colección
+                // Se añade la lista a la colección
                 listas.add(listaCompra);
             }
 
-            //Cierre de recursos
+            // Se cierran los recursos
             rs.close();
             stmt.close();
             connection.close();
@@ -100,40 +101,40 @@ public class ListaCompraDao {
             e.printStackTrace();
         }
 
-        //Se devuelve la lista completa de listas de compra
+        // Se devuelve la lista completa de listas de compra
         return listas;
     }
 
-    //Mé_todo para listar todas las listas de compra de un usuario concreto
-    public static List<ListaCompra> listarListasPorUsuario(int idUsuario){
+    // Mé_todo para listar todas las listas de compra de un usuario concreto
+    public static List<ListaCompra> listarListasPorUsuario(int idUsuario) {
 
-        //Lista donde se almacenarán las listas obtenidas de la base de datos
+        // Lista donde se almacenan las listas obtenidas de la base de datos
         List<ListaCompra> listas = new ArrayList<>();
 
-        //Query SQL con JOIN para obtener listas y datos del usuario en una sola consulta
+        // Query SQL con JOIN para obtener listas y datos del usuario
         String sql = "SELECT lc.idLista, lc.nombreCompra, lc.fechaCreacion, " +
-                "u.id,u.dni, u.nombre, u.apellido, u.email, u.password " +
+                "u.id, u.dni, u.nombre, u.apellido, u.email, u.password " +
                 "FROM listascompra lc " +
                 "JOIN usuarios u ON lc.idUsuario = u.id " +
                 "WHERE u.id = ?";
 
-        try{
-            //Se obtiene la conexión a la base de datos
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se prepara la consulta SQL
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            //Se asigna el id del usuario al parámetro de la query
+            // Se asigna el id del usuario al parámetro de la query
             ps.setInt(1, idUsuario);
 
-            //Se ejecuta la consulta y se obtiene el resultado
+            // Se ejecuta la consulta
             ResultSet rs = ps.executeQuery();
 
-            //Se recorren todas las filas del resultado
-            while (rs.next()){
+            // Se recorren todas las filas del resultado
+            while (rs.next()) {
 
-                //Se crea el objeto Usuario con los datos obtenidos del JOIN
+                // Se crea el objeto Usuario con los datos obtenidos del JOIN
                 Usuario usuario = new Usuario(
                         rs.getInt("id"),
                         rs.getString("dni"),
@@ -143,7 +144,7 @@ public class ListaCompraDao {
                         rs.getString("password")
                 );
 
-                //Se crea el objeto ListaCompra con los datos obtenidos
+                // Se crea el objeto ListaCompra con los datos obtenidos
                 ListaCompra listaCompra = new ListaCompra(
                         rs.getInt("idLista"),
                         usuario,
@@ -151,54 +152,53 @@ public class ListaCompraDao {
                         rs.getDate("fechaCreacion").toLocalDate()
                 );
 
-                //Se añade la lista a la colección
+                // Se añade la lista a la colección
                 listas.add(listaCompra);
             }
 
-            //Se cierran los recursos para evitar fugas de memoria
+            // Se cierran los recursos
             rs.close();
             ps.close();
             connection.close();
 
         } catch (SQLException e) {
-            //Muestra el error completo en caso de fallo
             e.printStackTrace();
         }
 
-        //Se devuelve la lista de listas de compra del usuario
+        // Se devuelve la lista de listas de compra del usuario
         return listas;
     }
 
-    //Mé_todo para buscar una lista de compra por su id
-    public static ListaCompra buscarListaCompraPorId(int idLista){
+    // Mé_todo para buscar una lista de compra por su ID
+    public static ListaCompra buscarListaCompraPorId(int idLista) {
 
-        //Objeto que se devolverá (null si no se encuentra la lista)
+        // Objeto que se devolverá, null si no se encuentra la lista
         ListaCompra listaCompra = null;
 
-        //Query SQL con JOIN para obtener la lista y su usuario asociado
+        // Query SQL con JOIN para obtener la lista y su usuario asociado
         String sql = "SELECT lc.idLista, lc.nombreCompra, lc.fechaCreacion, " +
                 "u.id, u.dni, u.nombre, u.apellido, u.email, u.password " +
                 "FROM listascompra lc " +
                 "JOIN usuarios u ON lc.idUsuario = u.id " +
                 "WHERE lc.idLista = ?";
 
-        try{
-            //Se obtiene la conexión a la base de datos
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se prepara la consulta SQL
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            //Se asigna el id de la lista al parámetro de la query
+            // Se asigna el id de la lista al parámetro de la query
             ps.setInt(1, idLista);
 
-            //Se ejecuta la consulta
+            // Se ejecuta la consulta
             ResultSet rs = ps.executeQuery();
 
-            //Si se encuentra una fila, se crea el objeto ListaCompra
-            if (rs.next()){
+            // Si se encuentra una fila, se crea el objeto ListaCompra
+            if (rs.next()) {
 
-                //Se crea el objeto Usuario con los datos obtenidos del JOIN
+                // Se crea el objeto Usuario con los datos obtenidos del JOIN
                 Usuario usuario = new Usuario(
                         rs.getInt("id"),
                         rs.getString("dni"),
@@ -208,7 +208,7 @@ public class ListaCompraDao {
                         rs.getString("password")
                 );
 
-                //Se crea el objeto ListaCompra con los datos obtenidos
+                // Se crea el objeto ListaCompra con los datos obtenidos
                 listaCompra = new ListaCompra(
                         rs.getInt("idLista"),
                         usuario,
@@ -217,7 +217,7 @@ public class ListaCompraDao {
                 );
             }
 
-            //Cierre de recursos
+            // Se cierran los recursos
             rs.close();
             ps.close();
             connection.close();
@@ -226,42 +226,35 @@ public class ListaCompraDao {
             e.printStackTrace();
         }
 
-        //Se devuelve la lista encontrada o null si no existe
+        // Se devuelve la lista encontrada o null si no existe
         return listaCompra;
     }
 
-    //Mé_todo para actualizar una lista de compra
-    public static void actualizarListaCompra(ListaCompra listaCompra){
+    // Mé_todo para actualizar una lista de compra
+    public static void actualizarListaCompra(ListaCompra listaCompra) {
 
-        //Query SQL para actualizar la lista
+        // Query SQL para actualizar la lista
         String sql = "UPDATE listascompra " +
                 "SET idUsuario = ?, nombreCompra = ?, fechaCreacion = ? " +
                 "WHERE idLista = ?";
 
-        try{
-            //Se obtiene la conexión
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se prepara la consulta
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            //Se asignan los parámetros
+            // Se asignan los parámetros
             ps.setInt(1, listaCompra.getUsuario().getId());
             ps.setString(2, listaCompra.getNombreCompra());
             ps.setDate(3, Date.valueOf(listaCompra.getFechaCreacion()));
             ps.setInt(4, listaCompra.getIdLista());
 
-            //Se ejecuta la actualización
-            int filas = ps.executeUpdate();
+            // Se ejecuta la actualización
+            ps.executeUpdate();
 
-            //Comprobación de resultado
-            if (filas > 0){
-                System.out.println("Lista actualizada correctamente.");
-            } else {
-                System.out.println("No se encontró la lista.");
-            }
-
-            //Cierre de recursos
+            // Se cierran los recursos
             ps.close();
             connection.close();
 
@@ -270,37 +263,30 @@ public class ListaCompraDao {
         }
     }
 
-    //Método para eliminar una lista de compra por su id
-    public static void eliminarListaCompra(int idLista){
+    // Mé_todo para eliminar una lista de compra por su ID
+    public static void eliminarListaCompra(int idLista) {
 
-        //Query SQL para eliminar la lista
+        // Query SQL para eliminar la lista
         String sql = "DELETE FROM listascompra WHERE idLista = ?";
 
-        try{
-            //Se obtiene la conexión a la base de datos
+        try {
+            // Se obtiene la conexión a la base de datos
             Connection connection = DatabaseConnection.conectar();
 
-            //Se prepara la consulta
+            // Se prepara la consulta SQL
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            //Se asigna el id de la lista
+            // Se asigna el id de la lista
             ps.setInt(1, idLista);
 
-            //Se ejecuta la eliminación
-            int filas = ps.executeUpdate();
+            // Se ejecuta la eliminación
+            ps.executeUpdate();
 
-            //Comprobación de resultado
-            if(filas > 0){
-                System.out.println("Lista eliminada correctamente.");
-            } else {
-                System.out.println("No se encontró la lista.");
-            }
-
-            //Cierre de recursos
+            // Se cierran los recursos
             ps.close();
             connection.close();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

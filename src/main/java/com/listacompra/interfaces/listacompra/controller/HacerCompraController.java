@@ -165,11 +165,46 @@ public class HacerCompraController {
 
     @FXML
     public void onMarcarComprado() {
+
+        ItemLista itemSeleccionado = tablaItems.getSelectionModel().getSelectedItem();
+
+        // Si no hay producto seleccionada, no cargamos nada.
+        if (itemSeleccionado == null) {
+            lblMensaje.setText("Selecciona un producto de la lista");
+            lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
+            lblMensaje.getStyleClass().add("mensaje-error");
+            return;
+        }
+
+        ItemListaService itemListaService = new ItemListaService();
+
+        String resultado = itemListaService.marcarItemComoComprado(itemSeleccionado.getIdItem());
+
+        if (resultado.equals("OK")) {
+
+            // Mostramos mensaje de éxito
+            lblMensaje.setText("Producto marcado como comprado");
+
+            // Quitamos estilo de error si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-error");
+
+            // Aplicamos estilo de éxito.
+            lblMensaje.getStyleClass().add("mensaje-exito");
+
+            // Recargamos la tabla con los productos
+            cargarItemsLista();
+
+        } else {
+
+            // Si el servicio devuelve otro texto, es un error de validación o búsqueda
+            lblMensaje.setText(resultado);
+
+            // Quitamos estilo de éxito si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
+
     }
-
-    @FXML
-    public void onRefrescar() {
-    }
-
-
 }
