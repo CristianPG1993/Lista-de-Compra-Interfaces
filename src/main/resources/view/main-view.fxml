@@ -20,7 +20,7 @@
       <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-lateral" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#onMostrarUsuarios" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Usuarios" />
-            <Button fx:id="btnListasCompra" mnemonicParsing="false" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Listas Compra" />
+            <Button fx:id="btnListasCompra" mnemonicParsing="false" onAction="#onMostrarListasCompra" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Listas Compra" />
             <Button fx:id="btnProductos" mnemonicParsing="false" onAction="#onMostrarProductos" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Productos" />
             <Button fx:id="btnAnadirProducto" mnemonicParsing="false" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Añadir producto a lista" />
             <Button fx:id="btnMostrarLista" mnemonicParsing="false" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Mostrar lista" />

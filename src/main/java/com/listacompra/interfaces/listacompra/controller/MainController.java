@@ -109,4 +109,35 @@ public class MainController {
             lblEstado.setText("Error al cargar la vista de productos");
         }
     }
+
+    @FXML
+    private void onMostrarListasCompra(){
+
+        // Actualizamos la barra de estado para informar al usuario
+        lblEstado.setText("Módulo de listas de compra cargado");
+
+        // Intentamos cargar la vista de listas de compra dentro del panel central
+        try{
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listas-compra-view.fxml"));
+
+            Parent vista = loader.load();
+
+            // Obtenemos el controlador de la vista
+            ListasCompraController listasCompraController = loader.getController();
+
+            // Pasamos al controlador el usuario que ha iniciado sesión
+            listasCompraController.setUsuarioAutenticado(usuarioAutenticado);
+
+            contenidoCentral.getChildren().clear();
+
+            StackPane.setAlignment(vista, Pos.CENTER);
+
+            contenidoCentral.getChildren().add(vista);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            lblEstado.setText("No se ha podido cargar la vista de las tablas");
+        }
+    }
 }
