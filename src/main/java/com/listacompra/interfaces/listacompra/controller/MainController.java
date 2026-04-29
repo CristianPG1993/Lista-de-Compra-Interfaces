@@ -2,6 +2,7 @@ package com.listacompra.interfaces.listacompra.controller;
 
 
 import com.listacompra.interfaces.listacompra.model.Usuario;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -138,6 +139,37 @@ public class MainController {
             e.printStackTrace();
 
             lblEstado.setText("No se ha podido cargar la vista de las tablas");
+        }
+    }
+
+    public void onMostrarAnadirProductoLista() {
+
+        // Actualizamos la barra de estado para informar al usuario
+        lblEstado.setText("Módulo de Añadir producto a la lista cargado");
+
+        // Intentamos cargar la vista de listas de compra dentro del panel central
+        try{
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/anadir-producto-lista-view.fxml"));
+
+            Parent vista = loader.load();
+
+            // Obtenemos el controlador de la vista
+            AnadirProductosListaController controller = loader.getController();
+
+
+            // Pasamos al controlador el usuario que ha iniciado sesión
+            controller.setUsuarioAutenticado(usuarioAutenticado);
+
+            contenidoCentral.getChildren().clear();
+
+            StackPane.setAlignment(vista, Pos.CENTER);
+
+            contenidoCentral.getChildren().add(vista);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            lblEstado.setText("No se ha podido cargar la vista de añadir producto a lista");
         }
     }
 }
