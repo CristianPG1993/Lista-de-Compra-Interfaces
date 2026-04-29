@@ -3,6 +3,7 @@ package com.listacompra.interfaces.listacompra.controller;
 import com.listacompra.interfaces.listacompra.model.ListaCompra;
 import com.listacompra.interfaces.listacompra.model.Producto;
 import com.listacompra.interfaces.listacompra.model.Usuario;
+import com.listacompra.interfaces.listacompra.service.ItemListaService;
 import com.listacompra.interfaces.listacompra.service.ListaCompraService;
 import com.listacompra.interfaces.listacompra.service.ProductoService;
 import javafx.collections.FXCollections;
@@ -146,6 +147,102 @@ public class AnadirProductosListaController {
     @FXML
     private void onAnadirProductoLista() {
 
+        // Obtenemos la lista seleccionada en el ComboBox
+        ListaCompra listaSeleccionada = cmbListas.getSelectionModel().getSelectedItem();
+
+        // Obtenemos el producto seleccionado en el ComboBox
+        Producto productoSeleccionado = cmbProductos.getSelectionModel().getSelectedItem();
+
+        // Validamos que se haya seleccionado una lista
+        if (listaSeleccionada == null) {
+
+            // Mostramos mensaje de error
+            lblMensaje.setText("Selecciona una lista.");
+
+            // Quitamos estilo de éxito si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error
+            lblMensaje.getStyleClass().add("mensaje-error");
+
+            return;
+        }
+
+        // Validamos que se haya seleccionado un producto
+        if (productoSeleccionado == null) {
+
+            // Mostramos mensaje de error
+            lblMensaje.setText("Selecciona un producto.");
+
+            // Quitamos estilo de éxito si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error
+            lblMensaje.getStyleClass().add("mensaje-error");
+
+            // Cortamos la ejecución.
+            return;
+        }
+
+        // Variable donde guardaremos la cantidad convertida a número entero.
+        int cantidad;
+
+        // Intentamos convertir el texto de cantidad a int.
+        try {
+
+            cantidad = Integer.parseInt(txtCantidad.getText());
+
+        } catch (NumberFormatException e) {
+
+            // Si el usuario escribe texto o deja el campo vacío, mostramos error.
+            lblMensaje.setText("La cantidad debe ser un número entero.");
+
+            // Quitamos estilo de éxito si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+
+            // Cortamos la ejecución.
+            return;
+        }
+
+        // Creamos el servicio encargado de añadir productos a listas.
+        ItemListaService itemListaService = new ItemListaService();
+
+        // Añadimos el producto seleccionado a la lista seleccionada.
+        String resultado = itemListaService.anadirProductoALista(
+                listaSeleccionada.getIdLista(),
+                productoSeleccionado.getIdProducto(),
+                cantidad
+        );
+
+        // Si el servicio devuelve OK, la operación fue correcta.
+        if (resultado.equals("OK")) {
+
+            // Mostramos mensaje de éxito.
+            lblMensaje.setText("Producto añadido a la lista correctamente.");
+
+            // Quitamos estilo de error si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-error");
+
+            // Aplicamos estilo de éxito.
+            lblMensaje.getStyleClass().add("mensaje-exito");
+
+            // Limpiamos solo la cantidad para poder seguir añadiendo productos rápidamente.
+            txtCantidad.clear();
+
+        } else {
+
+            // Si el servicio devuelve otro texto, mostramos el error.
+            lblMensaje.setText(resultado);
+
+            // Quitamos estilo de éxito si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
     }
 
     @FXML

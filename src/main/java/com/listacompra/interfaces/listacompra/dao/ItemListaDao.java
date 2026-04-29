@@ -36,8 +36,6 @@ public class ItemListaDao {
             //Se ejecuta la inserción
             ps.executeUpdate();
 
-            System.out.println("Artículo añadido a la lista.");
-
             //Cierre de recursos
             ps.close();
             connection.close();
