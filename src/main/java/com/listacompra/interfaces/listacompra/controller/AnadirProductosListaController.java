@@ -248,5 +248,17 @@ public class AnadirProductosListaController {
     @FXML
     private void onLimpiarFormulario() {
 
+        // Limpiamos solo el campo de cantidad.
+        // Mantenemos la lista y el producto seleccionados para evitar que el ComboBox pierda el prompt visual.
+        txtCantidad.clear();
+
+        // Limpiamos cualquier mensaje mostrado anteriormente.
+        lblMensaje.setText("");
+
+        // Eliminamos estilos de éxito o error del label de mensaje.
+        lblMensaje.getStyleClass().removeAll("mensaje-exito", "mensaje-error");
+
+        // Devolvemos el foco al campo cantidad para facilitar introducir otra cantidad.
+        txtCantidad.requestFocus();
     }
 }
