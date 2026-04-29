@@ -122,45 +122,48 @@ public class ListaCompraService {
         ListaCompraDao.actualizarListaCompra(listaSeleccionada);
     }
 
-    // Mé_todo que elimina una lista de compra seleccionada por posición
-    // Valida primero el usuario y que la lista exista
-    public void eliminarListaCompra(String dni, int indiceLista) {
+    // Mé_todo que elimina una lista de compra usando directamente su ID
+    public String eliminarListaCompraPorId(String dni, int idLista) {
 
-        // Validar que el DNI no esté vacío
-        if (dni.isEmpty()) {
-            System.out.println("El DNI no puede estar vacío.");
-            return;
+        // Validamos que el DNI no sea nulo ni esté vacío
+        if (dni == null || dni.isEmpty()) {
+            return "El DNI no puede estar vacío.";
         }
 
-        // Buscar al usuario por DNI
+        // Normalizamos el DNI para evitar errores por espacios o minúsculas
+        dni = dni.trim().toUpperCase();
+
+        // Buscamos al usuario por DNI
         Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
 
-        // Si no existe, cancelar la operación
+        // Si el usuario no existe, no podemos eliminar ninguna lista
         if (usuario == null) {
-            System.out.println("No se encontró ningún usuario con ese DNI.");
-            return;
+            return "No se encontró ningún usuario con ese DNI.";
         }
 
-        // Obtener las listas del usuario
-        List<ListaCompra> listas = ListaCompraDao.listarListasPorUsuario(usuario.getId());
-
-        // Comprobar si el usuario tiene listas
-        if (listas.isEmpty()) {
-            System.out.println("Este usuario no tiene listas de compra.");
-            return;
+        // Validamos que el ID de la lista sea correcto
+        if (idLista <= 0) {
+            return "Lista no válida.";
         }
 
-        // Validar que la opción seleccionada sea correcta
-        if (indiceLista < 1 || indiceLista > listas.size()) {
-            System.out.println("Opción no válida.");
-            return;
+        // Buscamos la lista por su ID
+        ListaCompra lista = ListaCompraDao.buscarListaCompraPorId(idLista);
+
+        // Si no existe, devolvemos error
+        if (lista == null) {
+            return "No se encontró la lista seleccionada.";
         }
 
-        // Obtener la lista seleccionada
-        ListaCompra listaSeleccionada = listas.get(indiceLista - 1);
+        // Comprobamos que la lista pertenece al usuario autenticado
+        if (lista.getUsuario().getId() != usuario.getId()) {
+            return "No puedes eliminar una lista de otro usuario.";
+        }
 
-        // Eliminar la lista de la base de datos
-        ListaCompraDao.eliminarListaCompra(listaSeleccionada.getIdLista());
+        // Eliminamos la lista de la base de datos
+        ListaCompraDao.eliminarListaCompra(idLista);
+
+        // Devolvemos OK para que JavaFX pueda mostrar éxito
+        return "OK";
     }
 
     // Mé_todo que obtiene todos los productos disponibles de la base de datos

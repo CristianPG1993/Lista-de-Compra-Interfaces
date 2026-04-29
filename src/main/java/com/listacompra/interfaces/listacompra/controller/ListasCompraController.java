@@ -144,6 +144,56 @@ public class ListasCompraController {
     @FXML
     private void onEliminarLista(){
 
+        ListaCompra listaCompraSeleccionada = tablaListas.getSelectionModel().getSelectedItem();
+
+        if (listaCompraSeleccionada == null) {
+
+            // Mostramos mensaje de error
+            lblMensaje.setText("Selecciona una lista para eliminar.");
+
+            // Quitamos estilo de éxito si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error
+            lblMensaje.getStyleClass().add("mensaje-error");
+
+            // Cortamos la ejecución porque no hay producto seleccionado
+            return;
+        }
+
+        ListaCompraService listaCompraService = new ListaCompraService();
+
+        String resultado = listaCompraService.eliminarListaCompraPorId(
+                usuarioAutenticado.getDni(),
+                listaCompraSeleccionada.getIdLista()
+        );
+
+        if (resultado.equals("OK")) {
+
+            // Mostramos mensaje de éxito
+            lblMensaje.setText("Lista eliminada correctamente.");
+
+            // Quitamos estilo de error si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-error");
+
+            // Aplicamos estilo de éxito.
+            lblMensaje.getStyleClass().add("mensaje-exito");
+
+            // Recargamos la tabla para que desaparezca la tabla eliminada
+            cargarListas();
+
+        } else {
+
+            // Si el servicio devuelve otro texto, es un error de validación o búsqueda
+            lblMensaje.setText(resultado);
+
+            // Quitamos estilo de éxito si estaba aplicado
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
+
     }
 
     @FXML

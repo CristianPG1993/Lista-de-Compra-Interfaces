@@ -177,7 +177,7 @@ public class ListaCompraDao {
 
         //Query SQL con JOIN para obtener la lista y su usuario asociado
         String sql = "SELECT lc.idLista, lc.nombreCompra, lc.fechaCreacion, " +
-                "u.id, u.nombre, u.apellido, u.email, u.password " +
+                "u.id, u.dni, u.nombre, u.apellido, u.email, u.password " +
                 "FROM listascompra lc " +
                 "JOIN usuarios u ON lc.idUsuario = u.id " +
                 "WHERE lc.idLista = ?";
