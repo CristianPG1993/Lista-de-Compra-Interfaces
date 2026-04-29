@@ -7,6 +7,9 @@ import com.listacompra.interfaces.listacompra.model.ItemLista;
 import com.listacompra.interfaces.listacompra.model.ListaCompra;
 import com.listacompra.interfaces.listacompra.model.Producto;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public class ItemListaService {
 
     // Mé_todo que añade un producto a una lista de compra.
@@ -58,5 +61,29 @@ public class ItemListaService {
 
         // Devolvemos OK para que JavaFX pueda mostrar mensaje de éxito
         return "OK";
+    }
+
+    // Devuelve todos los items/productos asociados a una lista de compra
+    public List<ItemLista> listarItemsPorLista(int idLista) {
+
+        // Validamos que el ID de la lista sea correcto
+        if (idLista <= 0) {
+            return List.of();
+        }
+
+        // Delegamos la consulta al DAO
+        return ItemListaDao.listarItemsPorLista(idLista);
+    }
+
+    // Calcula el precio total de una lista de compra
+    public BigDecimal calcularTotalLista(int idLista) {
+
+        // Validamos que el ID de la lista sea correcto
+        if (idLista <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        // Delegamos el cálculo al DAO
+        return ItemListaDao.calcularPrecioTotalLista(idLista);
     }
 }

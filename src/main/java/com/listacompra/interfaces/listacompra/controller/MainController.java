@@ -142,7 +142,8 @@ public class MainController {
         }
     }
 
-    public void onMostrarAnadirProductoLista() {
+    @FXML
+    private void onMostrarAnadirProductoLista() {
 
         // Actualizamos la barra de estado para informar al usuario
         lblEstado.setText("Módulo de Añadir producto a la lista cargado");
@@ -170,6 +171,37 @@ public class MainController {
             e.printStackTrace();
 
             lblEstado.setText("No se ha podido cargar la vista de añadir producto a lista");
+        }
+    }
+
+    @FXML
+    private void onMostrarHacerCompra(){
+        // Actualizamos la barra de estado para informar al usuario
+        lblEstado.setText("Módulo de Hacer la compra cargado");
+
+        // Intentamos cargar la vista de hacer la compra dentro del panel central
+        try{
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/hacer-compra-view.fxml"));
+
+            Parent vista = loader.load();
+
+            // Obtenemos el controlador de la vista
+            HacerCompraController controller = loader.getController();
+
+
+            // Pasamos al controlador el usuario que ha iniciado sesión
+            controller.setUsuarioAutenticado(usuarioAutenticado);
+
+            contenidoCentral.getChildren().clear();
+
+            StackPane.setAlignment(vista, Pos.CENTER);
+
+            contenidoCentral.getChildren().add(vista);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            lblEstado.setText("No se ha podido cargar la vista de hacer la compra");
         }
     }
 }

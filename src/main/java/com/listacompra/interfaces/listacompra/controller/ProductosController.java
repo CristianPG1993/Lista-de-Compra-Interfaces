@@ -85,9 +85,6 @@ public class ProductosController {
         // Convertimos la lista normal del servicio en una lista observable para JavaFX
         productosObservable = FXCollections.observableArrayList(productoService.listarProductos());
 
-        // Mostramos en consola cuántos productos llegan desde la base de datos.
-        System.out.println("Productos cargados: " + productosObservable.size());
-
         // Asociamos la lista observable a la tabla
         tablaProductos.setItems(productosObservable);
     }

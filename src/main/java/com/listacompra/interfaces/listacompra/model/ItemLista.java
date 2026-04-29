@@ -59,6 +59,19 @@ public class ItemLista {
         return producto;
     }
 
+    // Devuelve el nombre del producto asociado al item
+    // Se usa para mostrar el producto en tablas JavaFX
+    public String getNombreProducto() {
+
+        // Si por algún motivo el producto es null, devolvemos texto vacío
+        if (producto == null) {
+            return "";
+        }
+
+        // Devolvemos el nombre del producto asociado
+        return producto.getNombre();
+    }
+
     //Devuelve la lista de compra a la que pertenece el item
     public ListaCompra getListaCompra() {
         return listaCompra;
