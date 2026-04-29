@@ -93,6 +93,51 @@ public class ListasCompraController {
     @FXML
     private void onCrearLista(){
 
+        // Si por algún motivo no hay usuario autenticado, no podemos cargar listas
+        if (usuarioAutenticado == null) {
+            lblMensaje.setText("No hay usuario autenticado.");
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+            lblMensaje.getStyleClass().add("mensaje-error");
+            return;
+        }
+
+        ListaCompraService listaCompraService = new ListaCompraService();
+
+        String resultado = listaCompraService.crearListaCompra(
+                usuarioAutenticado.getDni(),
+                txtNombreLista.getText()
+        );
+
+        // Si el resultado del servicio devuelve OK, el producto se ha creado correctamente
+        if(resultado.equals("OK")){
+
+            // Mostramos mensaje de éxito.
+            lblMensaje.setText("Lista añadida correctamente.");
+
+            // Quitamos estilo de error si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-error");
+
+            // Aplicamos estilo de éxito.
+            lblMensaje.getStyleClass().add("mensaje-exito");
+
+            // Limpiamos los campos del formulario.
+            txtNombreLista.clear();
+
+            // Recargamos la tabla para mostrar la nueva lista
+            cargarListas();
+
+        } else {
+
+            // Si el servicio devuelve otro texto, es un mensaje de validación.
+            lblMensaje.setText(resultado);
+
+            // Quitamos estilo de éxito si estaba aplicado.
+            lblMensaje.getStyleClass().removeAll("mensaje-exito");
+
+            // Aplicamos estilo de error.
+            lblMensaje.getStyleClass().add("mensaje-error");
+        }
+
 
     }
 

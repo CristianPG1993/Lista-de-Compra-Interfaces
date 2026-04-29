@@ -16,28 +16,27 @@ import java.util.List;
 public class ListaCompraService {
 
     // Mé_todo que crea una nueva lista de compra asociada a un usuario
-    // Primero valida el DNI y el nombre de la lista, después inserta la lista en la base de datos
-    public void crearListaCompra(String dni, String nombreLista) {
+    // Devuelve un String para que JavaFX pueda mostrar el resultado en pantalla
+    public String crearListaCompra(String dni, String nombreLista) {
 
         // Validar que el DNI no esté vacío
-        if (dni.isEmpty()) {
-            System.out.println("El DNI no puede estar vacío.");
-            return;
+        if (dni == null || dni.isEmpty()) {
+            return "El DNI no puede estar vacío.";
         }
+
+        dni = dni.trim().toUpperCase();
 
         // Buscar al usuario en la base de datos a partir de su DNI
         Usuario usuario = UsuarioDao.buscarUsuarioPorDni(dni);
 
         // Si no existe el usuario, se informa y se cancela la operación
         if (usuario == null) {
-            System.out.println("No se encontró ningún usuario con ese DNI.");
-            return;
+            return "No se encontró ningún usuario con ese DNI.";
         }
 
         // Validar que el nombre de la lista no esté vacío
-        if (nombreLista.isEmpty()) {
-            System.out.println("El nombre de la lista no puede estar vacío.");
-            return;
+        if (nombreLista == null || nombreLista.isEmpty()) {
+            return "El nombre de la lista no puede estar vacío.";
         }
 
         // Crear el objeto ListaCompra con la fecha actual
@@ -47,7 +46,7 @@ public class ListaCompraService {
         ListaCompraDao.insertarListaCompra(lista);
 
         // Mostrar mensaje de confirmación
-        System.out.println("Lista creada correctamente.");
+        return "OK";
     }
 
     // Mé_todo que obtiene todas las listas de compra de un usuario a partir de su DNI
