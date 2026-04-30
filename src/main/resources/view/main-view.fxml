@@ -8,37 +8,89 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.MainController">
+<BorderPane maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="550.0"
+            prefWidth="700.0"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.listacompra.interfaces.listacompra.controller.MainController">
+
    <top>
-      <HBox prefHeight="50.0" prefWidth="200.0" styleClass="header-principal" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+      <HBox prefHeight="50.0"
+            styleClass="header-principal"
+            stylesheets="@../css/styles.css"
+            BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="lblTitulo" text="Lista de la Compra" />
+            <Label text="Lista de la Compra" />
          </children>
       </HBox>
    </top>
+
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="menu-lateral" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0"
+            prefWidth="100.0"
+            styleClass="menu-lateral"
+            stylesheets="@../css/styles.css"
+            BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnUsuarios" mnemonicParsing="false" onAction="#onMostrarUsuarios" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Usuarios" />
-            <Button fx:id="btnListasCompra" mnemonicParsing="false" onAction="#onMostrarListasCompra" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Listas Compra" />
-            <Button fx:id="btnProductos" mnemonicParsing="false" onAction="#onMostrarProductos" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Productos" />
-            <Button fx:id="btnAnadirProducto" mnemonicParsing="false" onAction="#onMostrarAnadirProductoLista" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Añadir producto a lista" />
-            <Button fx:id="btnHacerCompra" mnemonicParsing="false" onAction="#onMostrarHacerCompra" styleClass="btn-menu" stylesheets="@../css/styles.css" text="Hacer compra" />
-            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#onSalir" styleClass="btn-salir" stylesheets="@../css/styles.css" text="Salir" />
+            <Button mnemonicParsing="false"
+                    onAction="#onMostrarUsuarios"
+                    styleClass="btn-menu"
+                    stylesheets="@../css/styles.css"
+                    text="Usuarios" />
+
+            <Button mnemonicParsing="false"
+                    onAction="#onMostrarListasCompra"
+                    styleClass="btn-menu"
+                    stylesheets="@../css/styles.css"
+                    text="Listas Compra" />
+
+            <Button mnemonicParsing="false"
+                    onAction="#onMostrarProductos"
+                    styleClass="btn-menu"
+                    stylesheets="@../css/styles.css"
+                    text="Productos" />
+
+            <Button mnemonicParsing="false"
+                    onAction="#onMostrarAnadirProductoLista"
+                    styleClass="btn-menu"
+                    stylesheets="@../css/styles.css"
+                    text="Añadir producto a lista" />
+
+            <Button mnemonicParsing="false"
+                    onAction="#onMostrarHacerCompra"
+                    styleClass="btn-menu"
+                    stylesheets="@../css/styles.css"
+                    text="Hacer compra" />
+
+            <Button mnemonicParsing="false"
+                    onAction="#onSalir"
+                    styleClass="btn-salir"
+                    stylesheets="@../css/styles.css"
+                    text="Salir" />
          </children>
       </VBox>
    </left>
+
    <center>
-      <StackPane fx:id="contenidoCentral" prefHeight="400.0" prefWidth="500.0" BorderPane.alignment="CENTER">
-         <opaqueInsets>
-            <Insets left="20.0" />
-         </opaqueInsets></StackPane>
+      <StackPane fx:id="contenidoCentral"
+                 prefHeight="400.0"
+                 prefWidth="500.0"
+                 BorderPane.alignment="CENTER" />
    </center>
+
    <bottom>
-      <HBox prefHeight="40.0" prefWidth="200.0" styleClass="barra-estado" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+      <HBox prefHeight="40.0"
+            styleClass="barra-estado"
+            stylesheets="@../css/styles.css"
+            BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="lblEstado" text="Estado: listo" />
          </children>
       </HBox>
    </bottom>
+
 </BorderPane>

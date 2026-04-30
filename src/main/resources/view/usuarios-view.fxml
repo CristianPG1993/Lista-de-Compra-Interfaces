@@ -5,13 +5,33 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="rootUsuarios" prefWidth="300.0" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.UsuariosController">
+<VBox fx:id="rootUsuarios"
+      alignment="CENTER"
+      prefWidth="300.0"
+      spacing="10.0"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.listacompra.interfaces.listacompra.controller.UsuariosController">
+
    <children>
-      <Label styleClass="titulo-modulo" stylesheets="@../css/styles.css" text="Gestión de Usuarios" />
-      <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#onActualizarUsuario" styleClass="btn-actualizar-usuario" stylesheets="@../css/styles.css" text="Actualizar Usuario" />
-      <Button fx:id="btnEliminarUsuario" onAction="#onEliminarUsuario" styleClass="btn-eliminar-usuario" stylesheets="@../css/styles.css" text="Eliminar Usuario" />
+      <Label styleClass="titulo-modulo"
+             stylesheets="@../css/styles.css"
+             text="Gestión de Usuarios" />
+
+      <Button mnemonicParsing="false"
+              onAction="#onActualizarUsuario"
+              styleClass="btn-actualizar-usuario"
+              stylesheets="@../css/styles.css"
+              text="Actualizar Usuario" />
+
+      <Button mnemonicParsing="false"
+              onAction="#onEliminarUsuario"
+              styleClass="btn-eliminar-usuario"
+              stylesheets="@../css/styles.css"
+              text="Eliminar Usuario" />
    </children>
+
    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" />
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
 </VBox>

@@ -9,33 +9,59 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="560.0" spacing="10.0" styleClass="container-form" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.listacompra.interfaces.listacompra.controller.HacerCompraController">
-   <padding>
-      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-   </padding>
-   <children>
-      <Label alignment="CENTER" styleClass="titulo-modulo" stylesheets="@../css/styles.css" text="Hacer compra" />
-      <ComboBox fx:id="cmbListas" prefWidth="300.0" promptText="Seleccione una lista" />
-      <TableView fx:id="tablaItems" prefHeight="200.0" prefWidth="200.0">
-        <columns>
-          <TableColumn fx:id="colProducto" prefWidth="150.0" text="Producto" />
-          <TableColumn fx:id="colCantidad" prefWidth="120.0" text="Cantidad" />
-            <TableColumn fx:id="colPrecio" prefWidth="120.0" text="Precio" />
-            <TableColumn fx:id="colComprado" prefWidth="110.0" text="Comprado" />
-        </columns>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <VBox.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </VBox.margin>
-      </TableView>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <Button fx:id="btnMarcarComprado" mnemonicParsing="false" onAction="#onMarcarComprado" styleClass="btn-registrar" stylesheets="@../css/styles.css" text="Marcar como comprado" />
-         </children>
-      </HBox>
-      <Label fx:id="lblTotal" text="Total: 0 €" />
-      <Label fx:id="lblMensaje" />
-   </children>
+<VBox alignment="CENTER"
+      maxHeight="-Infinity"
+      maxWidth="-Infinity"
+      minHeight="-Infinity"
+      minWidth="-Infinity"
+      prefHeight="500.0"
+      prefWidth="560.0"
+      spacing="10.0"
+      styleClass="container-form"
+      stylesheets="@../css/styles.css"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.listacompra.interfaces.listacompra.controller.HacerCompraController">
+
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+    </padding>
+
+    <children>
+        <Label alignment="CENTER"
+               styleClass="titulo-modulo"
+               stylesheets="@../css/styles.css"
+               text="Hacer compra" />
+
+        <ComboBox fx:id="cmbListas"
+                  prefWidth="300.0"
+                  promptText="Selecciona una lista" />
+
+        <TableView fx:id="tablaItems"
+                   prefHeight="200.0"
+                   prefWidth="520.0"
+                   styleClass="tabla-productos"
+                   stylesheets="@../css/styles.css">
+            <columns>
+                <TableColumn fx:id="colProducto" prefWidth="150.0" text="Producto" />
+                <TableColumn fx:id="colCantidad" prefWidth="120.0" text="Cantidad" />
+                <TableColumn fx:id="colPrecio" prefWidth="120.0" text="Precio" />
+                <TableColumn fx:id="colComprado" prefWidth="110.0" text="Comprado" />
+            </columns>
+        </TableView>
+
+        <HBox alignment="CENTER" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false"
+                        onAction="#onMarcarComprado"
+                        styleClass="btn-registrar"
+                        stylesheets="@../css/styles.css"
+                        text="Marcar como comprado" />
+            </children>
+        </HBox>
+
+        <Label fx:id="lblTotal" text="Total: 0 €" />
+
+        <Label fx:id="lblMensaje" />
+    </children>
 </VBox>

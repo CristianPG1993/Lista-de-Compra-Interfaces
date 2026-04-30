@@ -5,12 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity"
-      maxWidth="-Infinity"
-      minHeight="-Infinity"
-      minWidth="-Infinity"
+<VBox alignment="CENTER"
       prefHeight="550.0"
       prefWidth="700.0"
       spacing="10.0"
@@ -19,18 +17,62 @@
       xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.listacompra.interfaces.listacompra.controller.RegistroUsuarioController">
+
    <children>
-      <Label styleClass="titulo-modulo" stylesheets="@../css/styles.css" text="Registro de Usuario" />
-      <TextField fx:id="txtDni" promptText="DNI" styleClass="input-form" stylesheets="@../css/styles.css" />
-      <TextField fx:id="txtNombre" promptText="Nombre" styleClass="input-form" stylesheets="@../css/styles.css" />
-      <TextField fx:id="txtApellido" promptText="Apellido" styleClass="input-form" stylesheets="@../css/styles.css" />
-      <TextField fx:id="txtEmail" promptText="Email" styleClass="input-form" stylesheets="@../css/styles.css" />
-      <PasswordField fx:id="txtPassword" promptText="Contraseña" styleClass="input-form" stylesheets="@../css/styles.css" />
-      <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#onRegistrarUsuario" styleClass="btn-registrar" stylesheets="@../css/styles.css" text="Registrar" />
-      <Button mnemonicParsing="false" onAction="#onVolver" styleClass="btn-volver" stylesheets="@../css/styles.css" text="Volver" />
-      <Label fx:id="lblMensaje" alignment="CENTER" maxHeight="300.0" maxWidth="300.0" text="" wrapText="true" />
+      <Label text="Registro de Usuario"
+             styleClass="titulo-modulo"
+             stylesheets="@../css/styles.css" />
+
+      <TextField fx:id="txtDni"
+                 maxWidth="240.0"
+                 promptText="DNI"
+                 styleClass="input-form"
+                 stylesheets="@../css/styles.css" />
+
+      <TextField fx:id="txtNombre"
+                 maxWidth="240.0"
+                 promptText="Nombre"
+                 styleClass="input-form"
+                 stylesheets="@../css/styles.css" />
+
+      <TextField fx:id="txtApellido"
+                 maxWidth="240.0"
+                 promptText="Apellido"
+                 styleClass="input-form"
+                 stylesheets="@../css/styles.css" />
+
+      <TextField fx:id="txtEmail"
+                 maxWidth="240.0"
+                 promptText="Email"
+                 styleClass="input-form"
+                 stylesheets="@../css/styles.css" />
+
+      <PasswordField fx:id="txtPassword"
+                     maxWidth="240.0"
+                     promptText="Contraseña"
+                     styleClass="input-form"
+                     stylesheets="@../css/styles.css" />
+
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false"
+                    onAction="#onRegistrarUsuario"
+                    styleClass="btn-registrar"
+                    stylesheets="@../css/styles.css"
+                    text="Registrar" />
+
+            <Button mnemonicParsing="false"
+                    onAction="#onVolver"
+                    styleClass="btn-volver"
+                    stylesheets="@../css/styles.css"
+                    text="Volver" />
+         </children>
+      </HBox>
+
+      <Label fx:id="lblMensaje" />
    </children>
+
    <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
    </padding>
 </VBox>

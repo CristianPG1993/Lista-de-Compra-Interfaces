@@ -9,32 +9,76 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<VBox alignment="CENTER"
+      maxHeight="-Infinity"
+      maxWidth="-Infinity"
+      minHeight="-Infinity"
+      minWidth="-Infinity"
+      prefHeight="420.0"
+      prefWidth="500.0"
+      spacing="15.0"
+      styleClass="container-form"
+      stylesheets="@../css/styles.css"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.listacompra.interfaces.listacompra.controller.ListasCompraController">
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="500.0" spacing="15.0" fx:controller="com.listacompra.interfaces.listacompra.controller.ListasCompraController" styleClass="container-form" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
+
    <children>
-      <Label alignment="CENTER" styleClass="titulo-modulo" stylesheets="@../css/styles.css" text="Listas de Compra" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+      <Label alignment="CENTER"
+             styleClass="titulo-modulo"
+             stylesheets="@../css/styles.css"
+             text="Listas de Compra" />
+
+      <HBox alignment="CENTER" spacing="10.0">
          <children>
-            <TextField fx:id="txtNombreLista" promptText="Nombre de la lista" styleClass="input-form" stylesheets="@../css/styles.css" />
-            <Button fx:id="btnCrearLista" alignment="CENTER" mnemonicParsing="false" onAction="#onCrearLista" styleClass="btn-registrar" stylesheets="@../css/styles.css" text="Crear" />
+            <TextField fx:id="txtNombreLista"
+                       promptText="Nombre de la lista"
+                       styleClass="input-form"
+                       stylesheets="@../css/styles.css" />
+
+            <Button alignment="CENTER"
+                    mnemonicParsing="false"
+                    onAction="#onCrearLista"
+                    styleClass="btn-registrar"
+                    stylesheets="@../css/styles.css"
+                    text="Crear" />
          </children>
       </HBox>
-      <TableView fx:id="tablaListas" prefHeight="200.0" prefWidth="200.0">
-        <columns>
-          <TableColumn fx:id="colId" prefWidth="100.0" text="ID" />
-          <TableColumn fx:id="colNombre" prefWidth="200.0" text="Nombre" />
-            <TableColumn fx:id="colFecha" prefWidth="140.0" text="Fecha" />
-        </columns>
+
+      <TableView fx:id="tablaListas"
+                 prefHeight="200.0"
+                 prefWidth="460.0"
+                 styleClass="tabla-productos"
+                 stylesheets="@../css/styles.css">
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="80.0" text="ID" />
+            <TableColumn fx:id="colNombre" prefWidth="220.0" text="Nombre" />
+            <TableColumn fx:id="colFecha" prefWidth="150.0" text="Fecha" />
+         </columns>
       </TableView>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+      <HBox alignment="CENTER" spacing="10.0">
          <children>
-            <Button fx:id="btnEliminarLista" alignment="CENTER" mnemonicParsing="false" onAction="#onEliminarLista" styleClass="btn-eliminar-usuario" stylesheets="@../css/styles.css" text="Eliminar seleccionada" />
-            <Button fx:id="btnLimpiar" alignment="CENTER" mnemonicParsing="false" onAction="#onLimpiarFormulario" styleClass="btn-volver" stylesheets="@../css/styles.css" text="Limpiar" />
+            <Button alignment="CENTER"
+                    mnemonicParsing="false"
+                    onAction="#onEliminarLista"
+                    styleClass="btn-eliminar-usuario"
+                    stylesheets="@../css/styles.css"
+                    text="Eliminar seleccionada" />
+
+            <Button alignment="CENTER"
+                    mnemonicParsing="false"
+                    onAction="#onLimpiarFormulario"
+                    styleClass="btn-volver"
+                    stylesheets="@../css/styles.css"
+                    text="Limpiar" />
          </children>
       </HBox>
+
       <Label fx:id="lblMensaje" />
    </children>
 </VBox>
