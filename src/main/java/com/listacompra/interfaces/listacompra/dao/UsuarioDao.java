@@ -185,6 +185,53 @@ public class UsuarioDao {
         return usuario;
     }
 
+    // Mé_todo para buscar un usuario por email
+    public static Usuario buscarUsuarioPorEmail(String email) {
+
+        // Usuario que se devolverá, null si no se encuentra
+        Usuario usuario = null;
+
+        // Query SQL para buscar un usuario por email
+        String sql = "SELECT id, dni, nombre, apellido, email, password FROM usuarios WHERE email = ?";
+
+        try {
+            // Se obtiene la conexión a la base de datos
+            Connection connection = DatabaseConnection.conectar();
+
+            // Se prepara la consulta SQL
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            // Se asigna el email al parámetro de la query
+            ps.setString(1, email);
+
+            // Se ejecuta la consulta
+            ResultSet rs = ps.executeQuery();
+
+            // Si existe un usuario con ese email, se crea el objeto Usuario
+            if (rs.next()) {
+                usuario = new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("dni"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                );
+            }
+
+            // Se cierran los recursos
+            rs.close();
+            ps.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Se devuelve el usuario encontrado o null si no existe
+        return usuario;
+    }
+
     // Mé_todo para actualizar un usuario existente
     public static void actualizarUsuario(Usuario usuario) {
 

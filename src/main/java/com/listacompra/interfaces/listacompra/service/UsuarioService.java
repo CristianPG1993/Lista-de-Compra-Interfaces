@@ -79,6 +79,11 @@ public class UsuarioService {
             return "Email no válido";
         }
 
+        // Comprobamos que no exista ya un usuario con ese email
+        if (UsuarioDao.buscarUsuarioPorEmail(email) != null) {
+            return "Ya existe un usuario con ese email";
+        }
+
         // Validamos contraseña
         if (password == null || password.length() < 6 || !password.matches(".*\\d.*")) {
             return "Password no válida";
