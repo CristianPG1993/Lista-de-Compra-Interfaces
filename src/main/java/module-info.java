@@ -10,4 +10,6 @@ module com.listacompra.interfaces.listacompra {
     opens com.listacompra.interfaces.listacompra.model to javafx.base;
 
     exports com.listacompra.interfaces.listacompra;
+    exports com.listacompra.interfaces.listacompra.view;
+    opens com.listacompra.interfaces.listacompra.view to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package com.listacompra.interfaces.listacompra;
+package com.listacompra.interfaces.listacompra.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

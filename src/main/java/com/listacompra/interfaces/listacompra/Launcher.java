@@ -1,5 +1,6 @@
 package com.listacompra.interfaces.listacompra;
 
+import com.listacompra.interfaces.listacompra.view.MainApp;
 import javafx.application.Application;
 
 public class Launcher {
